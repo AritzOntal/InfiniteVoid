@@ -30,23 +30,22 @@ public class Player implements Disposable {
 
     public void handleInput(float delta) {
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            position.x -= 10;
+            position.x -= 250 * delta;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            position.x += 10;
+            position.x += 250 * delta;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            position.y += 10;
+            position.y += 250 * delta;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            position.y -= 10;
+            position.y -= 250 * delta;
         }
 
         rectangle.setPosition(position.x, position.y);
-
     }
 
     @Override

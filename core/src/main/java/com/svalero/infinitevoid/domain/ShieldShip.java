@@ -2,18 +2,12 @@ package com.svalero.infinitevoid.domain;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
-import com.badlogic.gdx.utils.Disposable;
-import lombok.Data;
 
+public class ShieldShip extends Character {
 
-
-public class Asteroid extends Character{
-
-    public Asteroid(Texture texture, int x, int y) {
+    public ShieldShip(Texture texture, int x, int y) {
         super(texture, new Vector2(x, y));
     }
 
@@ -23,7 +17,7 @@ public class Asteroid extends Character{
 
     @Override
     public void move(float delta) {
-        position.y -= 150 * delta;
+        position.y -= 50 * delta;
         rectangle.y = position.y;
     }
 }

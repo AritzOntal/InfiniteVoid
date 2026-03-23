@@ -9,15 +9,20 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.svalero.infinitevoid.domain.Asteroid;
+import com.svalero.infinitevoid.domain.Character;
+import com.svalero.infinitevoid.domain.Kamikaze;
 import com.svalero.infinitevoid.domain.Player;
+import com.svalero.infinitevoid.domain.ShieldShip;
 
 
 public class GameScreen implements Screen {
 
     private SpriteBatch batch;
     private Texture asteroidTexture;
+    private Texture kamikazeTexture;
+    private Texture shieldShipTexture;
     private Player player;
-    private Array<Asteroid> asteroids;
+    private Array<Character> characters;
     private float asteroidTimer;
     private float spawnInterval;
 
@@ -26,8 +31,11 @@ public class GameScreen implements Screen {
     public void show() {
         player = new Player(new Texture(Gdx.files.internal("Ship2.png")));
         asteroidTexture = new Texture(Gdx.files.internal("asteroid.png"));
-        //INICIALIZAMOS ARRAY
-        asteroids = new Array<>();
+        kamikazeTexture = new Texture(Gdx.files.internal("kamikaze.png"));
+        shieldShipTexture = new Texture(Gdx.files.internal("shieldship.png"));
+
+        //INICIALIZAMOS ARRAY DE CLASE ABSTRACTA
+        characters = new Array<>();
 
         batch = new SpriteBatch();
     }
@@ -37,15 +45,21 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        asteroidTimer += delta;
         spawnInterval = 1;
+        asteroidTimer += delta;
 
-        //TODO CONTROLAR VELOCIDAD QUE SE GENERAN LOS ASTEROIDES
-        if(asteroidTimer >= spawnInterval) {
+        if (asteroidTimer >= spawnInterval) {
+
             //CREAMOS UN ASTEROIDE CADA VEZ
             Asteroid asteroid = new Asteroid(asteroidTexture, MathUtils.random(0, 1024), 768);
+            Kamikaze kamikaze = new Kamikaze(kamikazeTexture, MathUtils.random(0, 1024), 768);
+            ShieldShip shieldShip = new ShieldShip(shieldShipTexture, MathUtils.random(0, 1024), 768);
+
             //Y LA AÑADIMOS AL ARRAY
-            asteroids.add(asteroid);
+            characters.add(asteroid);
+            characters.add(kamikaze);
+            characters.add(shieldShip);
+
             asteroidTimer = 0;
         }
 
@@ -54,23 +68,20 @@ public class GameScreen implements Screen {
         //PASO BATCH
         player.draw(batch);
 
-        //PINTAMOS LOS ASTEROIDES
-        for (Asteroid asteroid : asteroids) {
-            asteroid.draw(batch);
-        }
-        batch.end();
-        //LE PASO EL DELTA A SUS MOVIMIENTOS
-        player.handleInput(delta);
+        //PINTAMOS NPCs
+        for (Character enemie : characters) {
+            enemie.draw(batch);
+            enemie.move(delta);
 
-        //MOVEMOS ASTEROIDES JUNTO A RECTANGELS
-        for (Asteroid asteroid : asteroids) {
-            asteroid.move(delta);
-
-            //AQUI COMPROBAMOS SI HAN COINCIDIDO
-            if (asteroid.getRectangle().overlaps(player.getRectangle()) || asteroid.getPosition().y < -asteroidTexture.getHeight()) {
-                asteroids.removeValue(asteroid, true);
+            if (enemie.getRectangle().overlaps(player.getRectangle()) || enemie.getPosition().y < -enemie.getTexture().getHeight()) {
+                characters.removeValue(enemie, true);
             }
         }
+
+        batch.end();
+
+        //LE PASO EL DELTA A SUS MOVIMIENTOS
+        player.handleInput(delta);
     }
 
     @Override
@@ -97,6 +108,6 @@ public class GameScreen implements Screen {
         player.dispose();
         batch.dispose();
         asteroidTexture.dispose();
-        asteroids.clear();
+        characters.clear();
     }
 }
