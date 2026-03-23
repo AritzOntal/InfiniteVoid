@@ -15,13 +15,11 @@ import com.badlogic.gdx.utils.Array;
 public class GameScreen implements Screen {
 
     private SpriteBatch batch;
-    private Texture playerTexture;
-    private Texture asteroidTexture;
+    private Texture playerTexture, asteroidTexture;
+    private Rectangle playerRectangle;
     private Vector2 playerPosition;
     private Array<Vector2> asteriodsPositions;
     private Array<Rectangle> asteroidRectangels;
-    private Rectangle playerRectangle;
-
     private float asteroidTimer;
     private float spawnInterval;
 
@@ -75,6 +73,8 @@ public class GameScreen implements Screen {
         }
 
         batch.end();
+
+        //MOVIMIENTOS
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             playerPosition.x -= 10;
