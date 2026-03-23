@@ -29,7 +29,7 @@ public class Kamikaze extends Character {
         }
 
         position.y -= KAMIKAZE_SPEED * delta;
-        position.x -= (KAMIKAZE_SPEED * direccionX) *  delta;
+        position.x -= (KAMIKAZE_SPEED * direccionX) * delta;
         rectangle.y = position.y;
         rectangle.x = position.x;
     }

@@ -23,7 +23,7 @@ public class Asteroid extends Character{
     }
 
     @Override
-    public void move(float delta) {
+    public void move(float delta)    {
         position.y -= ASTEROID_SPEED * delta;
         rectangle.y = position.y;
     }
