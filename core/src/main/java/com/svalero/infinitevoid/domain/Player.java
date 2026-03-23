@@ -19,11 +19,13 @@ public class Player implements Disposable {
     private Rectangle rectangle;
     private Vector2 position;
     private Texture texture;
+    private int lives;
 
     public Player(Texture texture) {
         this.texture = texture;
         position = new Vector2(100, 100);
         rectangle = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
+        lives = 3;
     }
 
     public void draw(Batch batch) {

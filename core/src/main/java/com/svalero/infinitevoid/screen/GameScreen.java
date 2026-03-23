@@ -78,22 +78,32 @@ public class GameScreen implements Screen {
 
         batch.begin();
 
-        //PASO BATCH
+        //PASAMOS BATCH
         player.draw(batch);
 
-        //PINTAMOS NPCs
+
+        //PINTAMOS ENEMIGOS
         for (Character enemie : characters) {
             enemie.draw(batch);
             enemie.move(delta);
 
-            if (enemie.getRectangle().overlaps(player.getRectangle()) || enemie.getPosition().y < -enemie.getTexture().getHeight()) {
+            if (enemie.getRectangle().overlaps(player.getRectangle())) {
+                player.setLives(player.getLives() - 1);
+                Gdx.app.log("JUEGO", "¡Colisión! Vidas restantes: " + player.getLives());
+
+
+
+                characters.removeValue(enemie, true);
+            }
+
+            if (enemie.getPosition().y < -enemie.getTexture().getHeight()) {
                 characters.removeValue(enemie, true);
             }
         }
 
         batch.end();
-        player.handleInput(delta);
 
+        player.handleInput(delta);
         timePlayed += delta;
     }
 
