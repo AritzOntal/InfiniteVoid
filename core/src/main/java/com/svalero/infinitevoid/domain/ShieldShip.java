@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import static com.svalero.infinitevoid.Util.Constants.SHIELD_SPEED;
+
 public class ShieldShip extends Character {
 
     public ShieldShip(Texture texture, int x, int y) {
@@ -17,7 +19,7 @@ public class ShieldShip extends Character {
 
     @Override
     public void move(float delta) {
-        position.y -= 50 * delta;
+        position.y -= SHIELD_SPEED * delta;
         rectangle.y = position.y;
     }
 }

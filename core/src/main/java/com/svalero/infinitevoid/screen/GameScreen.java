@@ -14,6 +14,8 @@ import com.svalero.infinitevoid.domain.Kamikaze;
 import com.svalero.infinitevoid.domain.Player;
 import com.svalero.infinitevoid.domain.ShieldShip;
 
+import static com.svalero.infinitevoid.Util.Constants.*;
+
 
 public class GameScreen implements Screen {
 
@@ -23,7 +25,7 @@ public class GameScreen implements Screen {
     private Texture shieldShipTexture;
     private Player player;
     private Array<Character> characters;
-    private float asteroidTimer;
+    private float asteroidTimer, kamikazeTimer, shieldTimer;
     private float spawnInterval;
 
 
@@ -45,22 +47,26 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        spawnInterval = 1;
         asteroidTimer += delta;
+        kamikazeTimer += delta;
+        shieldTimer += delta;
 
-        if (asteroidTimer >= spawnInterval) {
-
-            //CREAMOS UN ASTEROIDE CADA VEZ
+        if (asteroidTimer >= ASTEROID_INTERVAL) {
             Asteroid asteroid = new Asteroid(asteroidTexture, MathUtils.random(0, 1024), 768);
-            Kamikaze kamikaze = new Kamikaze(kamikazeTexture, MathUtils.random(0, 1024), 768);
-            ShieldShip shieldShip = new ShieldShip(shieldShipTexture, MathUtils.random(0, 1024), 768);
-
-            //Y LA AÑADIMOS AL ARRAY
             characters.add(asteroid);
-            characters.add(kamikaze);
-            characters.add(shieldShip);
-
             asteroidTimer = 0;
+        }
+
+        if (kamikazeTimer >= KAMIKAZE_INTERVAL) {
+            Kamikaze kamikaze = new Kamikaze(kamikazeTexture, MathUtils.random(0, 1024), 768);
+            characters.add(kamikaze);
+            kamikazeTimer = 0;
+        }
+
+        if (shieldTimer >= SHIELD_INTERVAL) {
+            ShieldShip shieldShip = new ShieldShip(shieldShipTexture, MathUtils.random(0, 1024), 768);
+            characters.add(shieldShip);
+            shieldTimer = 0;
         }
 
         batch.begin();
