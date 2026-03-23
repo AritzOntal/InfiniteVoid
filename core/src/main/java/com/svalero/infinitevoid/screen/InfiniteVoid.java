@@ -1,4 +1,4 @@
-package com.svalero.infinitevoid;
+package com.svalero.infinitevoid.screen;
 
 import com.badlogic.gdx.Game;
 
