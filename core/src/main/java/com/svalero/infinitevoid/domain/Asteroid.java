@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.utils.Disposable;
 import lombok.Data;
 
+import static com.svalero.infinitevoid.Util.Constants.ASTEROID_SPEED;
 
 
 public class Asteroid extends Character{
@@ -22,8 +23,8 @@ public class Asteroid extends Character{
     }
 
     @Override
-    public void move(float delta) {
-        position.y -= 150 * delta;
+    public void move(float delta)    {
+        position.y -= ASTEROID_SPEED * delta;
         rectangle.y = position.y;
     }
 }

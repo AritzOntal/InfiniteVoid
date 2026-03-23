@@ -11,6 +11,8 @@ import com.badlogic.gdx.utils.Disposable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import static com.svalero.infinitevoid.Util.Constants.PLAYER_SPEED;
+
 @Data
 @AllArgsConstructor
 public class Player implements Disposable {
@@ -30,19 +32,19 @@ public class Player implements Disposable {
 
     public void handleInput(float delta) {
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            position.x -= 250 * delta;
+            position.x -= PLAYER_SPEED * delta;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            position.x += 250 * delta;
+            position.x += PLAYER_SPEED * delta;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            position.y += 250 * delta;
+            position.y += PLAYER_SPEED * delta;
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            position.y -= 250 * delta;
+            position.y -= PLAYER_SPEED * delta;
         }
 
         rectangle.setPosition(position.x, position.y);

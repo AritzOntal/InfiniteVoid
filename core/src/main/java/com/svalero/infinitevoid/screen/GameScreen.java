@@ -13,6 +13,9 @@ import com.svalero.infinitevoid.domain.Character;
 import com.svalero.infinitevoid.domain.Kamikaze;
 import com.svalero.infinitevoid.domain.Player;
 import com.svalero.infinitevoid.domain.ShieldShip;
+import com.svalero.infinitevoid.manager.LevelManager;
+
+import static com.svalero.infinitevoid.Util.Constants.*;
 
 
 public class GameScreen implements Screen {
@@ -23,12 +26,15 @@ public class GameScreen implements Screen {
     private Texture shieldShipTexture;
     private Player player;
     private Array<Character> characters;
-    private float asteroidTimer;
-    private float spawnInterval;
+    private float asteroidTimer, kamikazeTimer, shieldTimer;
+    private LevelManager levelManager;
+    private float timePlayed;
 
 
     @Override
     public void show() {
+        levelManager = new LevelManager();
+
         player = new Player(new Texture(Gdx.files.internal("Ship2.png")));
         asteroidTexture = new Texture(Gdx.files.internal("asteroid.png"));
         kamikazeTexture = new Texture(Gdx.files.internal("kamikaze.png"));
@@ -42,25 +48,32 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+
+        levelManager.checkLevelUp(timePlayed);
+
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        spawnInterval = 1;
         asteroidTimer += delta;
+        kamikazeTimer += delta;
+        shieldTimer += delta;
 
-        if (asteroidTimer >= spawnInterval) {
-
-            //CREAMOS UN ASTEROIDE CADA VEZ
+        if (asteroidTimer >= levelManager.getAsteroidSpawnInterval()) {
             Asteroid asteroid = new Asteroid(asteroidTexture, MathUtils.random(0, 1024), 768);
-            Kamikaze kamikaze = new Kamikaze(kamikazeTexture, MathUtils.random(0, 1024), 768);
-            ShieldShip shieldShip = new ShieldShip(shieldShipTexture, MathUtils.random(0, 1024), 768);
-
-            //Y LA AÑADIMOS AL ARRAY
             characters.add(asteroid);
-            characters.add(kamikaze);
-            characters.add(shieldShip);
-
             asteroidTimer = 0;
+        }
+
+        if (kamikazeTimer >= levelManager.getKamikazeSpawnInterval()) {
+            Kamikaze kamikaze = new Kamikaze(kamikazeTexture, MathUtils.random(0, 1024), 768);
+            characters.add(kamikaze);
+            kamikazeTimer = 0;
+        }
+
+        if (shieldTimer >= levelManager.getShieldShipSpawnInterval()) {
+            ShieldShip shieldShip = new ShieldShip(shieldShipTexture, MathUtils.random(0, 1024), 768);
+            characters.add(shieldShip);
+            shieldTimer = 0;
         }
 
         batch.begin();
@@ -79,9 +92,9 @@ public class GameScreen implements Screen {
         }
 
         batch.end();
-
-        //LE PASO EL DELTA A SUS MOVIMIENTOS
         player.handleInput(delta);
+
+        timePlayed += delta;
     }
 
     @Override

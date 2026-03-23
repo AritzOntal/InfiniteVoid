@@ -12,6 +12,7 @@ public abstract class Character {
     protected Texture texture;
     protected Rectangle rectangle;
     protected Vector2 position;
+    protected float spawnInterval;
 
     public Character(Texture texture, Vector2 position) {
         this.texture = texture;
