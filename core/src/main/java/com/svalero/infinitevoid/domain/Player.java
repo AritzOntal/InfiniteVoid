@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.utils.Disposable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,6 +32,7 @@ public class Player implements Disposable {
     }
 
     public void handleInput(float delta) {
+
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             position.x -= PLAYER_SPEED * delta;
         }

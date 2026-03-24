@@ -53,7 +53,7 @@ public class LogicManager {
                 Explosion exp = new Explosion(enemie.getRectangle().x - 100, enemie.getRectangle().y - 100, resourceManager.getExplosionAnimation());
 
                 colisions.add(exp);
-
+                resourceManager.getExplosionSound().play();
                 Gdx.app.log("JUEGO", "¡Colisión! Vidas restantes: " + resourceManager.getPlayer().getLives());
                 characters.removeValue(enemie, true);
             }

@@ -8,15 +8,16 @@ public class LevelManager {
 
     private int currentLevel;
     private float targetTime;
+    private ResourceManager res;
 
-    private float asteroidSpawnInterval = 1;
-    private float kamikazeSpawnInterval = 1;
-    private float shieldShipSpawnInterval = 1;
+    private float asteroidSpawnInterval;
+    private float kamikazeSpawnInterval;
+    private float shieldShipSpawnInterval;
 
-    public LevelManager() {
+    public LevelManager(ResourceManager res) {
+        this.res = res;
         this.currentLevel = 1;
-        this.targetTime = 100;
-
+        this.targetTime = 10;
         this.asteroidSpawnInterval = Constants.ASTEROID_INTERVAL;
         this.kamikazeSpawnInterval = Constants.KAMIKAZE_INTERVAL;
         this.shieldShipSpawnInterval = Constants.SHIELD_INTERVAL;
@@ -25,6 +26,9 @@ public class LevelManager {
     public boolean checkLevelUp(float timePlayed) {
         if (timePlayed >= targetTime) {
             levelUp();
+            res.getMusic1().stop();
+            res.getMusic2().setLooping(true);
+            res.getMusic2().play();
             return true;
         }
         return false;
