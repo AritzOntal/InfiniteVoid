@@ -17,12 +17,10 @@ import com.svalero.infinitevoid.manager.ResourceManager;
 public class GameScreen implements Screen {
 
     private SpriteBatch batch;
-    private Player player;
     private Array<Character> characters;
     private LevelManager levelManager;
     private LogicManager logicManager;
     private RenderManager renderManager;
-
     private float timePlayed;
     private ResourceManager resourceManager;
     private Array<Effect> effects;
@@ -84,7 +82,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        player.dispose();
         batch.dispose();
         resourceManager.dispose();
         characters.clear();
