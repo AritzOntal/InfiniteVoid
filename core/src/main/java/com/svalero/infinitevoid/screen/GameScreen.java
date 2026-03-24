@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.svalero.infinitevoid.domain.Asteroid;
 import com.svalero.infinitevoid.domain.Character;
@@ -14,6 +13,7 @@ import com.svalero.infinitevoid.domain.Kamikaze;
 import com.svalero.infinitevoid.domain.Player;
 import com.svalero.infinitevoid.domain.ShieldShip;
 import com.svalero.infinitevoid.manager.LevelManager;
+import com.svalero.infinitevoid.manager.ResourceManager;
 
 import static com.svalero.infinitevoid.Util.Constants.*;
 
@@ -21,14 +21,12 @@ import static com.svalero.infinitevoid.Util.Constants.*;
 public class GameScreen implements Screen {
 
     private SpriteBatch batch;
-    private Texture asteroidTexture;
-    private Texture kamikazeTexture;
-    private Texture shieldShipTexture;
     private Player player;
     private Array<Character> characters;
     private float asteroidTimer, kamikazeTimer, shieldTimer;
-    private LevelManager levelManager;
     private float timePlayed;
+    private LevelManager levelManager;
+    private ResourceManager resourceManager;
 
 
     @Override
@@ -36,9 +34,10 @@ public class GameScreen implements Screen {
         levelManager = new LevelManager();
 
         player = new Player(new Texture(Gdx.files.internal("Ship2.png")));
-        asteroidTexture = new Texture(Gdx.files.internal("asteroid.png"));
-        kamikazeTexture = new Texture(Gdx.files.internal("kamikaze.png"));
-        shieldShipTexture = new Texture(Gdx.files.internal("shieldship.png"));
+
+        //INICIAMOS EL MANAGER DE RECURSOS
+        resourceManager = new ResourceManager();
+        resourceManager.loadAll();
 
         //INICIALIZAMOS ARRAY DE CLASE ABSTRACTA
         characters = new Array<>();
@@ -59,19 +58,19 @@ public class GameScreen implements Screen {
         shieldTimer += delta;
 
         if (asteroidTimer >= levelManager.getAsteroidSpawnInterval()) {
-            Asteroid asteroid = new Asteroid(asteroidTexture, MathUtils.random(0, 1024), 768);
+            Asteroid asteroid = new Asteroid(resourceManager.getAsteroidTexture(), MathUtils.random(0, 1024), 768);
             characters.add(asteroid);
             asteroidTimer = 0;
         }
 
         if (kamikazeTimer >= levelManager.getKamikazeSpawnInterval()) {
-            Kamikaze kamikaze = new Kamikaze(kamikazeTexture, MathUtils.random(0, 1024), 768);
+            Kamikaze kamikaze = new Kamikaze(resourceManager.getKamikazeTexture(), MathUtils.random(0, 1024), 768);
             characters.add(kamikaze);
             kamikazeTimer = 0;
         }
 
         if (shieldTimer >= levelManager.getShieldShipSpawnInterval()) {
-            ShieldShip shieldShip = new ShieldShip(shieldShipTexture, MathUtils.random(0, 1024), 768);
+            ShieldShip shieldShip = new ShieldShip(resourceManager.getShieldShipTexture(), MathUtils.random(0, 1024), 768);
             characters.add(shieldShip);
             shieldTimer = 0;
         }
@@ -92,7 +91,7 @@ public class GameScreen implements Screen {
                 Gdx.app.log("JUEGO", "¡Colisión! Vidas restantes: " + player.getLives());
 
 
-
+                //TODO CAPTURAR COORDENADAS PARA CREAR UN EFECTO
                 characters.removeValue(enemie, true);
             }
 
@@ -130,7 +129,7 @@ public class GameScreen implements Screen {
     public void dispose() {
         player.dispose();
         batch.dispose();
-        asteroidTexture.dispose();
+        resourceManager.dispose();
         characters.clear();
     }
 }
