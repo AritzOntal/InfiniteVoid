@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.svalero.infinitevoid.domain.Asteroid;
 import com.svalero.infinitevoid.domain.Character;
@@ -24,8 +25,8 @@ public class GameScreen implements Screen {
     private Player player;
     private Array<Character> characters;
     private float asteroidTimer, kamikazeTimer, shieldTimer;
-    private float timePlayed;
     private LevelManager levelManager;
+    private float timePlayed;
     private ResourceManager resourceManager;
 
 
@@ -34,8 +35,6 @@ public class GameScreen implements Screen {
         levelManager = new LevelManager();
 
         player = new Player(new Texture(Gdx.files.internal("Ship2.png")));
-
-        //INICIAMOS EL MANAGER DE RECURSOS
         resourceManager = new ResourceManager();
         resourceManager.loadAll();
 
@@ -91,7 +90,6 @@ public class GameScreen implements Screen {
                 Gdx.app.log("JUEGO", "¡Colisión! Vidas restantes: " + player.getLives());
 
 
-                //TODO CAPTURAR COORDENADAS PARA CREAR UN EFECTO
                 characters.removeValue(enemie, true);
             }
 
