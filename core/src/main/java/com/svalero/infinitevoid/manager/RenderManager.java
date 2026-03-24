@@ -1,7 +1,9 @@
 package com.svalero.infinitevoid.manager;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.svalero.infinitevoid.domain.Effect;
@@ -9,21 +11,32 @@ import com.svalero.infinitevoid.domain.Character;
 import com.svalero.infinitevoid.domain.Player;
 
 
-
 public class RenderManager {
 
     private final SpriteBatch batch;
+    private final ResourceManager res;
 
 
     public RenderManager(SpriteBatch spriteBatch, ResourceManager resourceManager) {
         this.batch = spriteBatch;
+        this.res = resourceManager;
     }
 
     public void render(Player player, Array<Character> characters, Array<Effect> effects, float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+
         batch.begin();
+
+        if (player.getLives() > 0) {
+            res.getFont().setColor(Color.WHITE);
+        } else {
+            res.getFont().setColor(Color.RED);
+        }
+
+        res.getFont().draw(batch, "Lives: " + player.getLives(), 20, Gdx.graphics.getHeight() - 10);
+
 
         player.draw(batch);
 

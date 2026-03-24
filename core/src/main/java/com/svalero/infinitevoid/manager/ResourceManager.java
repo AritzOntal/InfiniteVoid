@@ -3,11 +3,13 @@ package com.svalero.infinitevoid.manager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.svalero.infinitevoid.domain.Player;
+import lombok.Data;
 import lombok.Getter;
 
-@Getter
+@Data
 public class ResourceManager {
 
     private Texture playerTexture;
@@ -17,6 +19,7 @@ public class ResourceManager {
     private Texture explosionSheet;
     private Player player;
     private Animation<TextureRegion> explosionAnimation;
+    private BitmapFont font;
 
     // CARGA EN MEMORIA LAS TEXTURAS
     public void loadAll() {
@@ -27,6 +30,9 @@ public class ResourceManager {
         shieldShipTexture = new Texture(Gdx.files.internal("shieldship.png"));
         explosionSheet = new Texture(Gdx.files.internal("explosion.png"));
 
+        font = new BitmapFont();
+        //setea tamaño
+        font.getData().setScale(2f);
 
 
         //SPLIT PARA DIVIDIR LA FOTO
