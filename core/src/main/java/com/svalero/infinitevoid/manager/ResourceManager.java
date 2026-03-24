@@ -1,6 +1,8 @@
 package com.svalero.infinitevoid.manager;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -18,17 +20,24 @@ public class ResourceManager {
     private Texture shieldShipTexture;
     private Texture explosionSheet;
     private Player player;
+    private Sound explosionSound;
+    private Music music1, music2;
     private Animation<TextureRegion> explosionAnimation;
     private BitmapFont fontLives, fontLevel;
 
     // CARGA EN MEMORIA LAS TEXTURAS
     public void loadAll() {
-        player = new Player(new Texture(Gdx.files.internal("Ship2.png")));
-        playerTexture = new Texture(Gdx.files.internal("Ship2.png"));
-        asteroidTexture = new Texture(Gdx.files.internal("asteroid.png"));
-        kamikazeTexture = new Texture(Gdx.files.internal("kamikaze.png"));
-        shieldShipTexture = new Texture(Gdx.files.internal("shieldship.png"));
-        explosionSheet = new Texture(Gdx.files.internal("explosion.png"));
+        player = new Player(new Texture(Gdx.files.internal("textures/Ship2.png")));
+        playerTexture = new Texture(Gdx.files.internal("textures/Ship2.png"));
+        asteroidTexture = new Texture(Gdx.files.internal("textures/asteroid.png"));
+        kamikazeTexture = new Texture(Gdx.files.internal("textures/kamikaze.png"));
+        shieldShipTexture = new Texture(Gdx.files.internal("textures/shieldship.png"));
+        explosionSheet = new Texture(Gdx.files.internal("textures/explosion.png"));
+        explosionSound = Gdx.audio.newSound(Gdx.files.internal("sounds/explosion.mp3"));
+        music1 = Gdx.audio.newMusic(Gdx.files.internal("sounds/level1.mp3"));
+        music2 = Gdx.audio.newMusic(Gdx.files.internal("sounds/level2.wav"));
+
+
 
         fontLives = new BitmapFont();
         fontLevel = new BitmapFont();

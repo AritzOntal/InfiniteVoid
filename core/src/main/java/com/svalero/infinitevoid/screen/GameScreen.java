@@ -16,18 +16,18 @@ public class GameScreen implements Screen {
 
     private SpriteBatch batch;
     private Array<Character> characters;
+    private ResourceManager resourceManager;
     private LevelManager levelManager;
     private LogicManager logicManager;
     private RenderManager renderManager;
     private float timePlayed;
-    private ResourceManager resourceManager;
     private Array<Effect> effects;
 
 
     @Override
     public void show() {
-        levelManager = new LevelManager();
         resourceManager = new ResourceManager();
+        levelManager = new LevelManager(resourceManager);
         logicManager = new LogicManager(resourceManager, levelManager);
         batch = new SpriteBatch();
         renderManager = new RenderManager(batch, resourceManager, levelManager);
@@ -36,6 +36,7 @@ public class GameScreen implements Screen {
 
         //CARGAMOS RECURSOS
         resourceManager.loadAll();
+        resourceManager.getMusic1().play();
     }
 
     @Override
@@ -47,6 +48,7 @@ public class GameScreen implements Screen {
         logicManager.spawnEnemies(characters, delta);
         logicManager.CheckColisions(characters, effects, delta);
         renderManager.render(resourceManager.getPlayer(), characters, effects, delta);
+
     }
 
     @Override
