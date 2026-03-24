@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.svalero.infinitevoid.domain.Player;
 import lombok.Getter;
 
 @Getter
@@ -14,15 +15,18 @@ public class ResourceManager {
     private Texture kamikazeTexture;
     private Texture shieldShipTexture;
     private Texture explosionSheet;
+    private Player player;
     private Animation<TextureRegion> explosionAnimation;
 
     // CARGA EN MEMORIA LAS TEXTURAS
     public void loadAll() {
+        player = new Player(new Texture(Gdx.files.internal("Ship2.png")));
         playerTexture = new Texture(Gdx.files.internal("Ship2.png"));
         asteroidTexture = new Texture(Gdx.files.internal("asteroid.png"));
         kamikazeTexture = new Texture(Gdx.files.internal("kamikaze.png"));
         shieldShipTexture = new Texture(Gdx.files.internal("shieldship.png"));
         explosionSheet = new Texture(Gdx.files.internal("explosion.png"));
+
 
 
         //SPLIT PARA DIVIDIR LA FOTO
