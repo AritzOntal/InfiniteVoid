@@ -1,8 +1,6 @@
 package com.svalero.infinitevoid.screen;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.badlogic.gdx.utils.Array;
@@ -35,30 +33,20 @@ public class GameScreen implements Screen {
         renderManager = new RenderManager(batch, resourceManager);
         characters = new Array<>();
         effects = new Array<>();
+
         //CARGAMOS RECURSOS
         resourceManager.loadAll();
     }
 
     @Override
     public void render(float delta) {
-
-        //COMPROBACION DEL NIVEL
-        levelManager.checkLevelUp(timePlayed);
-        //REFRESCADO DE ARRAY DE CHARACTERS
-        logicManager.update(delta, characters);
-        //LOGICA DE APARICION ENEMIGOS
-        logicManager.spawnEnemies(characters);
-
-        //METODO QUE PINTA TODOS
-        renderManager.render(resourceManager.getPlayer(), characters, effects, delta);
-
-        //PARA SABER SI A COLISIONADO
-        logicManager.CheckColisions(characters, effects);
-        //PARA SABER SI HA TERMINADO
-        logicManager.updateEffects(delta, effects);
+        timePlayed += delta;
 
         resourceManager.getPlayer().handleInput(delta);
-        timePlayed += delta;
+        levelManager.checkLevelUp(timePlayed);
+        logicManager.spawnEnemies(characters, delta);
+        logicManager.CheckColisions(characters, effects, delta);
+        renderManager.render(resourceManager.getPlayer(), characters, effects, delta);
     }
 
     @Override

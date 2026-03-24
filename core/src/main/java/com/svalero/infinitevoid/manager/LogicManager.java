@@ -8,8 +8,8 @@ import com.svalero.infinitevoid.domain.Character;
 
 public class LogicManager {
 
-    private ResourceManager resourceManager;
-    private LevelManager levelManager;
+    private final ResourceManager resourceManager;
+    private final LevelManager levelManager;
     private float asteroidTimer, kamikazeTimer, shieldTimer;
 
 
@@ -18,16 +18,13 @@ public class LogicManager {
         this.levelManager = levelManager;
     }
 
-    public void update (float delta, Array<Character> characters) {
+
+    public void spawnEnemies (Array<Character> characters, float delta) {
+
+        //ACTUALIZAMOS TIMERS
         asteroidTimer += delta;
         kamikazeTimer += delta;
         shieldTimer += delta;
-
-        spawnEnemies(characters);
-
-    }
-
-    public void spawnEnemies (Array<Character> characters) {
 
         if (asteroidTimer >= levelManager.getAsteroidSpawnInterval()) {
             characters.add(new Asteroid(resourceManager.getAsteroidTexture(), MathUtils.random(0, 1024), 768));
@@ -45,7 +42,7 @@ public class LogicManager {
         }
     }
 
-    public void CheckColisions (Array<Character> characters, Array<Effect> colisions) {
+    public void CheckColisions (Array<Character> characters, Array<Effect> colisions, float delta) {
 
         for (int i = 0; i < characters.size; i++) {
             Character enemie = characters.get(i);
@@ -64,6 +61,8 @@ public class LogicManager {
             if (enemie.getPosition().y < -enemie.getTexture().getHeight()) {
                 characters.removeValue(enemie, true);
             }
+
+            updateEffects(delta, colisions);
         }
     }
 
