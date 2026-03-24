@@ -30,7 +30,7 @@ public class GameScreen implements Screen {
         resourceManager = new ResourceManager();
         logicManager = new LogicManager(resourceManager, levelManager);
         batch = new SpriteBatch();
-        renderManager = new RenderManager(batch, resourceManager);
+        renderManager = new RenderManager(batch, resourceManager, levelManager);
         characters = new Array<>();
         effects = new Array<>();
 

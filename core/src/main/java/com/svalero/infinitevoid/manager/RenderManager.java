@@ -15,11 +15,14 @@ public class RenderManager {
 
     private final SpriteBatch batch;
     private final ResourceManager res;
+    private final LevelManager lev;
 
 
-    public RenderManager(SpriteBatch spriteBatch, ResourceManager resourceManager) {
+
+    public RenderManager(SpriteBatch spriteBatch, ResourceManager resourceManager, LevelManager levelManager) {
         this.batch = spriteBatch;
         this.res = resourceManager;
+        this.lev = levelManager;
     }
 
     public void render(Player player, Array<Character> characters, Array<Effect> effects, float delta) {
@@ -29,13 +32,14 @@ public class RenderManager {
 
         batch.begin();
 
-        if (player.getLives() > 0) {
-            res.getFont().setColor(Color.WHITE);
+        if (player.getLives() > 1) {
+            res.getFontLives().setColor(Color.WHITE);
         } else {
-            res.getFont().setColor(Color.RED);
+            res.getFontLives().setColor(Color.RED);
         }
 
-        res.getFont().draw(batch, "Lives: " + player.getLives(), 20, Gdx.graphics.getHeight() - 10);
+        res.getFontLives().draw(batch, "Lives: " + player.getLives(), 20, Gdx.graphics.getHeight() - 10);
+        res.getFontLevel().draw(batch, "Level: " + lev.getCurrentLevel(), 20, Gdx.graphics.getHeight() - 45);
 
 
         player.draw(batch);

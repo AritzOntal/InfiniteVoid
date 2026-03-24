@@ -19,7 +19,7 @@ public class ResourceManager {
     private Texture explosionSheet;
     private Player player;
     private Animation<TextureRegion> explosionAnimation;
-    private BitmapFont font;
+    private BitmapFont fontLives, fontLevel;
 
     // CARGA EN MEMORIA LAS TEXTURAS
     public void loadAll() {
@@ -30,9 +30,12 @@ public class ResourceManager {
         shieldShipTexture = new Texture(Gdx.files.internal("shieldship.png"));
         explosionSheet = new Texture(Gdx.files.internal("explosion.png"));
 
-        font = new BitmapFont();
+        fontLives = new BitmapFont();
+        fontLevel = new BitmapFont();
+
         //setea tamaño
-        font.getData().setScale(2f);
+        fontLives.getData().setScale(2f);
+        fontLevel.getData().setScale(2f);
 
 
         //SPLIT PARA DIVIDIR LA FOTO
