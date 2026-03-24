@@ -8,7 +8,7 @@ public class Explosion extends Effect {
 
     Animation<TextureRegion> animation;
 
-    public Explosion (int x, int y, Animation animation) {
+    public Explosion (float x, float y, Animation animation) {
         super(x, y);
         this.animation = animation;
     }

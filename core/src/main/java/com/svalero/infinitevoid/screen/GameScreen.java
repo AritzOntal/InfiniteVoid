@@ -8,11 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import com.svalero.infinitevoid.domain.Asteroid;
+import com.svalero.infinitevoid.domain.*;
 import com.svalero.infinitevoid.domain.Character;
-import com.svalero.infinitevoid.domain.Kamikaze;
-import com.svalero.infinitevoid.domain.Player;
-import com.svalero.infinitevoid.domain.ShieldShip;
 import com.svalero.infinitevoid.manager.LevelManager;
 import com.svalero.infinitevoid.manager.ResourceManager;
 
@@ -28,6 +25,7 @@ public class GameScreen implements Screen {
     private LevelManager levelManager;
     private float timePlayed;
     private ResourceManager resourceManager;
+    private Array<Effect> effects;
 
 
     @Override
@@ -38,8 +36,9 @@ public class GameScreen implements Screen {
         resourceManager = new ResourceManager();
         resourceManager.loadAll();
 
-        //INICIALIZAMOS ARRAY DE CLASE ABSTRACTA
+        //INICIALIZAMOS ARRAYS DE CLASES ABSTRACTAS
         characters = new Array<>();
+        effects = new Array<>();
 
         batch = new SpriteBatch();
     }
@@ -87,9 +86,12 @@ public class GameScreen implements Screen {
 
             if (enemie.getRectangle().overlaps(player.getRectangle())) {
                 player.setLives(player.getLives() - 1);
+
+                Explosion exp = new Explosion(enemie.getRectangle().x - 100, enemie.getRectangle().y -100, resourceManager.getExplosionAnimation());
+
+                effects.add(exp);
+
                 Gdx.app.log("JUEGO", "¡Colisión! Vidas restantes: " + player.getLives());
-
-
                 characters.removeValue(enemie, true);
             }
 
@@ -97,6 +99,18 @@ public class GameScreen implements Screen {
                 characters.removeValue(enemie, true);
             }
         }
+
+        //TODO RECORRE ARRAY DE EFECTOS PARA PINTARLOS
+        for (int i = 0; i < effects.size; i++) {
+            Effect effect = effects.get(i);
+            effect.draw(batch, delta);
+
+            if (effect.isFinished()) {
+                effects.removeIndex(i);
+                i--;
+            }
+        }
+
 
         batch.end();
 
