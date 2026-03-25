@@ -15,13 +15,14 @@ import com.svalero.infinitevoid.manager.ResourceManager;
 public class GameScreen implements Screen {
 
     private SpriteBatch batch;
-    private Array<Character> characters;
     private ResourceManager resourceManager;
     private LevelManager levelManager;
     private LogicManager logicManager;
     private RenderManager renderManager;
     private float timePlayed;
     private Array<Effect> effects;
+    private Array<Character> characters;
+    private Array<Shoot> shoots;
 
 
     @Override
@@ -33,6 +34,7 @@ public class GameScreen implements Screen {
         renderManager = new RenderManager(batch, resourceManager, levelManager);
         characters = new Array<>();
         effects = new Array<>();
+        shoots = new Array<>();
 
         //CARGAMOS RECURSOS
         resourceManager.loadAll();
@@ -43,7 +45,8 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         timePlayed += delta;
 
-        resourceManager.getPlayer().handleInput(delta);
+        logicManager.handleInput(delta, resourceManager.getPlayer());
+
         levelManager.checkLevelUp(timePlayed);
         logicManager.spawnEnemies(characters, delta);
         logicManager.CheckColisions(characters, effects, delta);

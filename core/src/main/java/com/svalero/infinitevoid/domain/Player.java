@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +21,7 @@ public class Player implements Disposable {
     private Texture texture;
     private int lives;
     private boolean isBlinking;
+    private boolean isShooting;
     private float blinkTimer;
     private float blinkDuration = 2.0f;
 
@@ -46,27 +48,6 @@ public class Player implements Disposable {
 
     public void draw(Batch batch) {
         batch.draw(texture, position.x, position.y);
-    }
-
-    public void handleInput(float delta) {
-
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            position.x -= PLAYER_SPEED * delta;
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            position.x += PLAYER_SPEED * delta;
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            position.y += PLAYER_SPEED * delta;
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            position.y -= PLAYER_SPEED * delta;
-        }
-
-        rectangle.setPosition(position.x, position.y);
     }
 
     @Override

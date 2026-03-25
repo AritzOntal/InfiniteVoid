@@ -20,10 +20,14 @@ public class ResourceManager {
     private Texture explosionSheet;
     private Texture background;
     private Texture background2;
+    private Texture shootTexture;
+
+    private Animation<TextureRegion> explosionAnimation;
+
     private Player player;
     private Sound explosionSound;
     private Music music1, music2;
-    private Animation<TextureRegion> explosionAnimation;
+
     private BitmapFont fontLives, fontLevel;
 
     // CARGA EN MEMORIA LAS TEXTURAS
@@ -35,6 +39,7 @@ public class ResourceManager {
         asteroidTexture = new Texture(Gdx.files.internal("textures/asteroid.png"));
         kamikazeTexture = new Texture(Gdx.files.internal("textures/kamikaze.png"));
         shieldShipTexture = new Texture(Gdx.files.internal("textures/shieldship.png"));
+        shootTexture = new Texture(Gdx.files.internal("textures/shoot.png"));
         explosionSheet = new Texture(Gdx.files.internal("textures/explosion.png"));
         explosionSound = Gdx.audio.newSound(Gdx.files.internal("sounds/explosion.mp3"));
         music1 = Gdx.audio.newMusic(Gdx.files.internal("sounds/level1.mp3"));

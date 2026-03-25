@@ -6,6 +6,7 @@ public class Constants {
     public final static int KAMIKAZE_SPEED = 300;
     public final static int SHIELD_SPEED = 50;
     public final static int PLAYER_SPEED = 200;
+    public final static int SHOOT_SPEED = 200;
 
     public final static float ASTEROID_INTERVAL = 1.0F;
     public final static float KAMIKAZE_INTERVAL = 3.0F;

@@ -1,10 +1,14 @@
 package com.svalero.infinitevoid.manager;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.svalero.infinitevoid.domain.*;
 import com.svalero.infinitevoid.domain.Character;
+import com.svalero.infinitevoid.domain.Shoot;
+
+import static com.svalero.infinitevoid.Util.Constants.PLAYER_SPEED;
 
 public class LogicManager {
 
@@ -17,6 +21,7 @@ public class LogicManager {
         this.resourceManager = resourceManager;
         this.levelManager = levelManager;
     }
+
 
 
     public void spawnEnemies (Array<Character> characters, float delta) {
@@ -68,6 +73,7 @@ public class LogicManager {
         }
     }
 
+
     public void updateEffects(float delta, Array<Effect> effects) {
         for (int i = 0; i < effects.size; i++) {
             // Solo comprobamos si ha terminado para borrarlo
@@ -76,7 +82,29 @@ public class LogicManager {
                 i--;
             }
         }
+    }
 
+    public void handleInput(float delta, Player player) {
 
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            player.getPosition().x -= PLAYER_SPEED * delta;
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            player.getPosition().x += PLAYER_SPEED * delta;
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            player.getPosition().y += PLAYER_SPEED * delta;
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            player.getPosition().y -= PLAYER_SPEED * delta;
+        }
+        player.getRectangle().setPosition(player.getPosition().x, player.getPosition().y);
     }
 }
