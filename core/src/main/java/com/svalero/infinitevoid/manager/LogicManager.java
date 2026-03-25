@@ -40,6 +40,10 @@ public class LogicManager {
             characters.add(new ShieldShip(resourceManager.getShieldShipTexture(), MathUtils.random(0, 1024), 768));
             shieldTimer = 0;
         }
+
+        for (Character enemie : characters) {
+            enemie.move(delta);
+        }
     }
 
     public void CheckColisions (Array<Character> characters, Array<Effect> colisions, float delta) {
@@ -51,18 +55,16 @@ public class LogicManager {
                 resourceManager.getPlayer().setLives(resourceManager.getPlayer().getLives() - 1);
 
                 Explosion exp = new Explosion(enemie.getRectangle().x - 100, enemie.getRectangle().y - 100, resourceManager.getExplosionAnimation());
-
+                resourceManager.getPlayer().takeDamage();
                 colisions.add(exp);
                 resourceManager.getExplosionSound().play();
-                Gdx.app.log("JUEGO", "¡Colisión! Vidas restantes: " + resourceManager.getPlayer().getLives());
+
                 characters.removeValue(enemie, true);
             }
 
             if (enemie.getPosition().y < -enemie.getTexture().getHeight()) {
                 characters.removeValue(enemie, true);
             }
-
-            updateEffects(delta, colisions);
         }
     }
 
@@ -74,5 +76,7 @@ public class LogicManager {
                 i--;
             }
         }
+
+
     }
 }

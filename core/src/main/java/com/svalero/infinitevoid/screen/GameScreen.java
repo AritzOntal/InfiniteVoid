@@ -47,6 +47,7 @@ public class GameScreen implements Screen {
         levelManager.checkLevelUp(timePlayed);
         logicManager.spawnEnemies(characters, delta);
         logicManager.CheckColisions(characters, effects, delta);
+        logicManager.updateEffects(delta, effects);
         renderManager.render(resourceManager.getPlayer(), characters, effects, delta);
 
     }

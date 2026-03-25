@@ -25,9 +25,12 @@ public class RenderManager {
     }
 
     public void render(Player player, Array<Character> characters, Array<Effect> effects, float delta) {
+
         batch.begin();
 
-        if(lev.getCurrentLevel() < 2) {
+        res.getPlayer().update(delta);
+
+        if (lev.getCurrentLevel() < 2) {
             batch.draw(res.getBackground(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         } else {
             batch.draw(res.getBackground2(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -39,11 +42,20 @@ public class RenderManager {
             res.getFontLives().setColor(Color.RED);
         }
 
+        //Renderizado de parpadeo
+        if (player.isBlinking()) {
+            if ((player.getBlinkTimer() % 0.2f) < 0.1f) {
+                batch.setColor(1, 1, 1, 0);
+            } else {
+                batch.setColor(1, 1, 1, 1); // Visible
+            }
+        }
+
         player.draw(batch);
+        batch.setColor(Color.WHITE);
 
         for (Character enemie : characters) {
             enemie.draw(batch);
-            enemie.move(delta);
         }
 
         for (Effect effect : effects) {

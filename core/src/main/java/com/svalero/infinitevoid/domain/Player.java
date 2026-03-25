@@ -19,12 +19,29 @@ public class Player implements Disposable {
     private Vector2 position;
     private Texture texture;
     private int lives;
+    private boolean isBlinking;
+    private float blinkTimer;
+    private float blinkDuration = 2.0f;
 
     public Player(Texture texture) {
         this.texture = texture;
         position = new Vector2(100, 100);
         rectangle = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
-        lives = 3;
+        lives = 5;
+    }
+
+    public void takeDamage() {
+        isBlinking = true;
+        blinkTimer = 0;
+    }
+
+    public void update(float delta) {
+        if (isBlinking) {
+            blinkTimer += delta;
+            if (blinkTimer >= blinkDuration) {
+                isBlinking = false;
+            }
+        }
     }
 
     public void draw(Batch batch) {
