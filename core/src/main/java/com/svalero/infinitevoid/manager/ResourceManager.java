@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.svalero.infinitevoid.domain.Player;
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public class ResourceManager {
@@ -19,6 +18,8 @@ public class ResourceManager {
     private Texture kamikazeTexture;
     private Texture shieldShipTexture;
     private Texture explosionSheet;
+    private Texture background;
+    private Texture background2;
     private Player player;
     private Sound explosionSound;
     private Music music1, music2;
@@ -27,6 +28,8 @@ public class ResourceManager {
 
     // CARGA EN MEMORIA LAS TEXTURAS
     public void loadAll() {
+        background = new  Texture(Gdx.files.internal("textures/corona_ft.png"));
+        background2 = new  Texture(Gdx.files.internal("textures/redeclipse_bk.png"));
         player = new Player(new Texture(Gdx.files.internal("textures/Ship2.png")));
         playerTexture = new Texture(Gdx.files.internal("textures/Ship2.png"));
         asteroidTexture = new Texture(Gdx.files.internal("textures/asteroid.png"));
