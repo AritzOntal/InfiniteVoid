@@ -45,13 +45,13 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         timePlayed += delta;
 
-        logicManager.handleInput(delta, resourceManager.getPlayer());
+        logicManager.handleInput(delta, resourceManager.getPlayer(), shoots);
 
         levelManager.checkLevelUp(timePlayed);
         logicManager.spawnEnemies(characters, delta);
         logicManager.CheckColisions(characters, effects, delta);
         logicManager.updateEffects(delta, effects);
-        renderManager.render(resourceManager.getPlayer(), characters, effects, delta);
+        renderManager.render(resourceManager.getPlayer(), characters, effects, shoots, delta);
 
     }
 

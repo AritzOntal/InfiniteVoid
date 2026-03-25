@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Array;
 import com.svalero.infinitevoid.domain.Effect;
 import com.svalero.infinitevoid.domain.Character;
 import com.svalero.infinitevoid.domain.Player;
+import com.svalero.infinitevoid.domain.Shoot;
 
 
 public class RenderManager {
@@ -24,7 +25,7 @@ public class RenderManager {
         this.lev = levelManager;
     }
 
-    public void render(Player player, Array<Character> characters, Array<Effect> effects, float delta) {
+    public void render(Player player, Array<Character> characters, Array<Effect> effects, Array<Shoot> shoots, float delta) {
 
         batch.begin();
 
@@ -60,6 +61,10 @@ public class RenderManager {
 
         for (Effect effect : effects) {
             effect.draw(batch, delta);
+        }
+
+        for (Shoot shoot : shoots) {
+            shoot.draw(batch);
         }
 
         res.getFontLives().draw(batch, "Lives: " + player.getLives(), 20, Gdx.graphics.getHeight() - 10);

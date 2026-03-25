@@ -5,7 +5,7 @@ import static com.svalero.infinitevoid.Util.Constants.SHOOT_SPEED;
 
 public class Shoot extends Character {
 
-    public Shoot(Texture texture, int x, int y) {
+    public Shoot(Texture texture, float x, float y) {
         super(texture, new Vector2(x, y));
     }
 

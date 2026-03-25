@@ -23,8 +23,7 @@ public class LogicManager {
     }
 
 
-
-    public void spawnEnemies (Array<Character> characters, float delta) {
+    public void spawnEnemies(Array<Character> characters, float delta) {
 
         //ACTUALIZAMOS TIMERS
         asteroidTimer += delta;
@@ -51,7 +50,7 @@ public class LogicManager {
         }
     }
 
-    public void CheckColisions (Array<Character> characters, Array<Effect> colisions, float delta) {
+    public void CheckColisions(Array<Character> characters, Array<Effect> colisions, float delta) {
 
         for (int i = 0; i < characters.size; i++) {
             Character enemie = characters.get(i);
@@ -84,10 +83,12 @@ public class LogicManager {
         }
     }
 
-    public void handleInput(float delta, Player player) {
+    public void handleInput(float delta, Player player, Array<Shoot> shoots) {
 
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            shoots.add(new Shoot(resourceManager.getShootTexture(),
+                resourceManager.getPlayer().getPosition().x + 6,
+                resourceManager.getPlayer().getPosition().y));
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
@@ -105,6 +106,11 @@ public class LogicManager {
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             player.getPosition().y -= PLAYER_SPEED * delta;
         }
+
         player.getRectangle().setPosition(player.getPosition().x, player.getPosition().y);
+
+        for (Shoot shoot : shoots) {
+            shoot.move(delta);
+        }
     }
 }
