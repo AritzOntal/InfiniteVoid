@@ -9,7 +9,7 @@ public class Constants {
     public final static int SHOOT_SPEED = 300;
 
     public final static float ASTEROID_INTERVAL = 1.0F;
-    public final static float KAMIKAZE_INTERVAL = 3.0F;
+    public final static float KAMIKAZE_INTERVAL = 7.0F;
     public final static float SHIELD_INTERVAL = 5.0F;
 
 }
