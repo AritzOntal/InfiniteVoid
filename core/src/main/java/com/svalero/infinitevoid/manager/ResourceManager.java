@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.svalero.infinitevoid.Util.AnimationHelper;
 import com.svalero.infinitevoid.domain.Player;
 import lombok.Data;
 
@@ -63,25 +64,8 @@ public class ResourceManager {
         fontTitle.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
 
-        //SPLIT PARA DIVIDIR LA FOTO
-        TextureRegion[][] tmp = TextureRegion.split(explosionSheet,
-            explosionSheet.getWidth() / 2,
-            explosionSheet.getHeight() / 8);
+        explosionAnimation = AnimationHelper.createAnimation(explosionSheet, 2, 8, 0.07f);
 
-
-        TextureRegion[] frames = new TextureRegion[10];
-
-        //LLENAMOS EL FRAME CON LA PRIMER COLUMNA (para ponerlos primero en el array)
-        for (int i = 0; i < 8; i++) {
-            frames[i] = tmp[i][0];
-        }
-
-        // EXTRAEMOS LO QUE QUEDA DE LA SEGUNDA COLUMNA MANUALMENTE (los ponemos al final porque los de la otra columna son los otos
-        frames[8] = tmp[0][1];  // fila uno columna dos
-        frames[9] = tmp[1][1]; // fila dos columna dos
-
-        //creamos la animacion con los argumentos (velocidad por frame y el array de frames
-        explosionAnimation = new Animation<>(0.07f, frames);
     }
 
         // LIBERA DE LA MEMORIA SI YA NO HAY TEXTURA
