@@ -3,6 +3,7 @@ package com.svalero.infinitevoid.manager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.svalero.infinitevoid.domain.*;
 import com.svalero.infinitevoid.domain.Character;
@@ -24,7 +25,6 @@ public class LogicManager {
 
 
     public void spawnEnemies(Array<Character> characters, float delta) {
-
         //ACTUALIZAMOS TIMERS
         asteroidTimer += delta;
         kamikazeTimer += delta;
@@ -50,7 +50,7 @@ public class LogicManager {
         }
     }
 
-    public void CheckColisions(Array<Character> characters, Array<Effect> colisions, float delta) {
+    public void CheckColisions(Array<Character> characters, Array<Effect> colisions, float delta, Array<Shoot> shoots) {
 
         for (int i = 0; i < characters.size; i++) {
             Character enemie = characters.get(i);
@@ -68,6 +68,24 @@ public class LogicManager {
 
             if (enemie.getPosition().y < -enemie.getTexture().getHeight()) {
                 characters.removeValue(enemie, true);
+            }
+
+            for (int c = 0; c < shoots.size; c++) {
+                Shoot shoot = shoots.get(c);
+
+                if (shoot.getRectangle().overlaps(enemie.getRectangle())) {
+                    //TODO AÑADIR PUNTOS AL AL SCORE
+                    Explosion exp = new Explosion(
+                        enemie.getRectangle().x - 100, enemie.getRectangle().y - 100,
+                        resourceManager.getExplosionAnimation());
+
+                    colisions.add(exp);
+                    resourceManager.getExplosionSound().play();
+
+                    characters.removeValue(enemie, true);
+                    shoots.removeValue(shoot, true);
+
+                }
             }
         }
     }
@@ -111,6 +129,9 @@ public class LogicManager {
 
         for (Shoot shoot : shoots) {
             shoot.move(delta);
+            shoot.getRectangle().setPosition(shoot.getPosition().x, shoot.getPosition().y);
         }
     }
+
+    //TODO ELIMINAR LOS DISPAROS DE LA MEMORIA CUANDO SALEN DE LA PANTALLA
 }
