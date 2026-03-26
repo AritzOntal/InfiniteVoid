@@ -126,8 +126,9 @@ public class LogicManager {
     public void handleInput(float delta, Player player, Array<Shoot> shoots) {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            shoots.add(new Shoot(resourceManager.getShootTexture(), resourceManager.getPlayer().getPosition().x + 6, resourceManager.getPlayer().getPosition().y));
-
+            shoots.add(new Shoot(resourceManager.getShootTexture(),
+                resourceManager.getPlayer().getPosition().x + 6,
+                resourceManager.getPlayer().getPosition().y));
             resourceManager.getShootSound().play();
         }
 
@@ -145,6 +146,18 @@ public class LogicManager {
 
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             player.getPosition().y -= PLAYER_SPEED * delta;
+        }
+
+        if (player.getPosition().x < 0) {
+            player.getPosition().x = 0;
+        } else if (player.getPosition().x > Gdx.graphics.getWidth() - player.getTexture().getWidth()) {
+            player.getPosition().x = Gdx.graphics.getWidth() - player.getTexture().getWidth();
+        }
+
+        if (player.getPosition().y < 0) {
+            player.getPosition().y = 0;
+        } else if (player.getPosition().y > Gdx.graphics.getHeight() - player.getTexture().getHeight()) {
+            player.getPosition().y = Gdx.graphics.getHeight() - player.getTexture().getHeight();
         }
 
         player.getRectangle().setPosition(player.getPosition().x, player.getPosition().y);

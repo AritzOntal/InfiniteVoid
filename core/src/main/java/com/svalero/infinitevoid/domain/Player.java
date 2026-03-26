@@ -52,6 +52,8 @@ public class Player implements Disposable {
         batch.draw(texture, position.x, position.y);
     }
 
+
+
     @Override
     public void dispose() {
         texture.dispose();

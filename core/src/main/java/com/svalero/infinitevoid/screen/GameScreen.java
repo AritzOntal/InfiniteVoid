@@ -44,10 +44,8 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         timePlayed += delta;
-
         logicManager.handleInput(delta, resourceManager.getPlayer(), shoots);
-
-        levelManager.checkLevelUp(timePlayed);
+        levelManager.checkLevelUp(resourceManager.getPlayer().getScore());
         logicManager.spawnEnemies(characters, delta);
         logicManager.CheckColisions(characters, effects, delta, shoots);
         logicManager.updateEffects(effects);
