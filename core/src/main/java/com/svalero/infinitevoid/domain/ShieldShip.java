@@ -10,7 +10,7 @@ import static com.svalero.infinitevoid.Util.Constants.SHIELD_SPEED;
 public class ShieldShip extends Character {
 
     public ShieldShip(Texture texture, int x, int y) {
-        super(texture, new Vector2(x, y));
+        super(texture, new Vector2(x, y), 10);
     }
 
     public void draw(Batch batch) {

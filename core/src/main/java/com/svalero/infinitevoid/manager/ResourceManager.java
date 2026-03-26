@@ -26,6 +26,7 @@ public class ResourceManager {
 
     private Player player;
     private Sound explosionSound;
+    private Sound shootSound, damageSound, shootColision;
     private Music music1, music2;
 
     private BitmapFont fontLives, fontLevel;
@@ -42,6 +43,9 @@ public class ResourceManager {
         shootTexture = new Texture(Gdx.files.internal("textures/shoot.png"));
         explosionSheet = new Texture(Gdx.files.internal("textures/explosion.png"));
         explosionSound = Gdx.audio.newSound(Gdx.files.internal("sounds/explosion.mp3"));
+        shootSound = Gdx.audio.newSound(Gdx.files.internal("sounds/shoot.wav"));
+        shootColision = Gdx.audio.newSound(Gdx.files.internal("sounds/shootColision.mp3"));
+        damageSound = Gdx.audio.newSound(Gdx.files.internal("sounds/damage.wav"));
         music1 = Gdx.audio.newMusic(Gdx.files.internal("sounds/level1.mp3"));
         music2 = Gdx.audio.newMusic(Gdx.files.internal("sounds/level2.wav"));
 

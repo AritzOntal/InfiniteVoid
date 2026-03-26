@@ -3,11 +3,13 @@ package com.svalero.infinitevoid.manager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.svalero.infinitevoid.domain.*;
 import com.svalero.infinitevoid.domain.Character;
 import com.svalero.infinitevoid.domain.Shoot;
 
+import static com.svalero.infinitevoid.Util.Constants.KAMIKAZE_SPEED;
 import static com.svalero.infinitevoid.Util.Constants.PLAYER_SPEED;
 
 public class LogicManager {
@@ -23,9 +25,7 @@ public class LogicManager {
     }
 
 
-
-    public void spawnEnemies (Array<Character> characters, float delta) {
-
+    public void spawnEnemies(Array<Character> characters, float delta) {
         //ACTUALIZAMOS TIMERS
         asteroidTimer += delta;
         kamikazeTimer += delta;
@@ -48,33 +48,72 @@ public class LogicManager {
 
         for (Character enemie : characters) {
             enemie.move(delta);
+            if (enemie instanceof Kamikaze) {
+                // Convertimos la referencia genérica a una específica.
+                Kamikaze kamikaze = (Kamikaze) enemie;
+                kamikaze.followPlayer(resourceManager.getPlayer().getPosition(), delta);
+            }
+
         }
+
     }
 
-    public void CheckColisions (Array<Character> characters, Array<Effect> colisions, float delta) {
+    public void CheckColisions(Array<Character> characters, Array<Effect> colisions, float delta, Array<Shoot> shoots) {
 
         for (int i = 0; i < characters.size; i++) {
             Character enemie = characters.get(i);
 
             if (enemie.getRectangle().overlaps(resourceManager.getPlayer().getRectangle())) {
-                resourceManager.getPlayer().setLives(resourceManager.getPlayer().getLives() - 1);
 
-                Explosion exp = new Explosion(enemie.getRectangle().x - 100, enemie.getRectangle().y - 100, resourceManager.getExplosionAnimation());
-                resourceManager.getPlayer().takeDamage();
-                colisions.add(exp);
-                resourceManager.getExplosionSound().play();
+                if (!enemie.isDoDamage()) {
+                    resourceManager.getPlayer().takeDamage();
+                    resourceManager.getPlayer().setLives(resourceManager.getPlayer().getLives() - 1);
+                    resourceManager.getDamageSound().play();
+                    enemie.setDoDamage(true);
 
-                characters.removeValue(enemie, true);
+                    if (enemie instanceof Kamikaze) {
+                        characters.removeValue(enemie, true);
+                    }
+                }
+
+            } else {
+                enemie.setDoDamage(false);
             }
 
             if (enemie.getPosition().y < -enemie.getTexture().getHeight()) {
                 characters.removeValue(enemie, true);
             }
+
+            for (int c = 0; c < shoots.size; c++) {
+                Shoot shoot = shoots.get(c);
+
+                if (shoot.getRectangle().overlaps(enemie.getRectangle())) {
+                    //TODO AÑADIR PUNTOS AL AL SCORE
+                    if (enemie.getLives() > 1) {
+                        enemie.setLives(enemie.getLives() - 1);
+                        resourceManager.getShootColision().play();
+                        shoots.removeValue(shoot, true);
+
+                    } else {
+                        Explosion exp = new Explosion(
+                            enemie.getRectangle().x - 100,
+                            enemie.getRectangle().y - 100,
+                            resourceManager.getExplosionAnimation());
+                        colisions.add(exp);
+                        resourceManager.getExplosionSound().play();
+                        characters.removeValue(enemie, true);
+                        shoots.removeValue(shoot, true);
+                        if (enemie.getClass().isAssignableFrom(ShieldShip.class)) {
+                            resourceManager.getPlayer().setScore(resourceManager.getPlayer().getScore() + 50);
+                        }
+                    }
+                }
+            }
         }
     }
 
 
-    public void updateEffects(float delta, Array<Effect> effects) {
+    public void updateEffects(Array<Effect> effects) {
         for (int i = 0; i < effects.size; i++) {
             // Solo comprobamos si ha terminado para borrarlo
             if (effects.get(i).isFinished()) {
@@ -84,10 +123,12 @@ public class LogicManager {
         }
     }
 
-    public void handleInput(float delta, Player player) {
+    public void handleInput(float delta, Player player, Array<Shoot> shoots) {
 
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            shoots.add(new Shoot(resourceManager.getShootTexture(), resourceManager.getPlayer().getPosition().x + 6, resourceManager.getPlayer().getPosition().y));
 
+            resourceManager.getShootSound().play();
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
@@ -105,6 +146,12 @@ public class LogicManager {
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             player.getPosition().y -= PLAYER_SPEED * delta;
         }
+
         player.getRectangle().setPosition(player.getPosition().x, player.getPosition().y);
+
+        for (Shoot shoot : shoots) {
+            shoot.move(delta);
+            shoot.getRectangle().setPosition(shoot.getPosition().x, shoot.getPosition().y);
+        }
     }
 }

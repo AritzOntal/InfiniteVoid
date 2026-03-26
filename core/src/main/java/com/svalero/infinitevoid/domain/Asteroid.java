@@ -14,8 +14,9 @@ import static com.svalero.infinitevoid.Util.Constants.ASTEROID_SPEED;
 
 public class Asteroid extends Character{
 
+
     public Asteroid(Texture texture, int x, int y) {
-        super(texture, new Vector2(x, y));
+        super(texture, new Vector2(x, y), 1);
     }
 
     public void draw(Batch batch) {

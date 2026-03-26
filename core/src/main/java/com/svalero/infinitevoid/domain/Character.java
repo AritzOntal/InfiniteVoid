@@ -13,11 +13,15 @@ public abstract class Character {
     protected Rectangle rectangle;
     protected Vector2 position;
     protected float spawnInterval;
+    protected boolean doDamage;
+    protected int lives;
 
-    public Character(Texture texture, Vector2 position) {
+    public Character(Texture texture, Vector2 position, int lives) {
         this.texture = texture;
         this.position = position;
         rectangle = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
+        doDamage = false;
+        this.lives = lives;
     }
 
     public void draw(Batch batch) {
