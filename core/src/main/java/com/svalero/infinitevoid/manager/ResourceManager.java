@@ -29,7 +29,8 @@ public class ResourceManager {
     private Sound shootSound, damageSound, shootColision;
     private Music music1, music2;
 
-    private BitmapFont fontLives, fontLevel;
+    private BitmapFont fontLives, fontLevel, fontTitle;
+
 
     // CARGA EN MEMORIA LAS TEXTURAS
     public void loadAll() {
@@ -53,10 +54,13 @@ public class ResourceManager {
 
         fontLives = new BitmapFont();
         fontLevel = new BitmapFont();
+        fontTitle = new BitmapFont();
 
         //setea tamaño
         fontLives.getData().setScale(2f);
         fontLevel.getData().setScale(2f);
+        fontTitle.getData().setScale(4f);
+        fontTitle.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
 
         //SPLIT PARA DIVIDIR LA FOTO
