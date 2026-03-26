@@ -69,6 +69,9 @@ public class RenderManager {
 
         res.getFontLives().draw(batch, "Lives: " + player.getLives(), 20, Gdx.graphics.getHeight() - 10);
         res.getFontLevel().draw(batch, "Level: " + lev.getCurrentLevel(), 20, Gdx.graphics.getHeight() - 45);
+        res.getFontLevel().draw(batch, "Score: " + player.getScore(), 20, Gdx.graphics.getHeight() - 80);
+
+
 
         batch.end();
     }

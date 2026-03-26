@@ -9,6 +9,7 @@ import com.svalero.infinitevoid.domain.*;
 import com.svalero.infinitevoid.domain.Character;
 import com.svalero.infinitevoid.domain.Shoot;
 
+import static com.svalero.infinitevoid.Util.Constants.KAMIKAZE_SPEED;
 import static com.svalero.infinitevoid.Util.Constants.PLAYER_SPEED;
 
 public class LogicManager {
@@ -47,7 +48,14 @@ public class LogicManager {
 
         for (Character enemie : characters) {
             enemie.move(delta);
+            if (enemie instanceof Kamikaze) {
+                // Convertimos la referencia genérica a una específica.
+                Kamikaze kamikaze = (Kamikaze) enemie;
+                kamikaze.followPlayer(resourceManager.getPlayer().getPosition(), delta);
+            }
+
         }
+
     }
 
     public void CheckColisions(Array<Character> characters, Array<Effect> colisions, float delta, Array<Shoot> shoots) {
@@ -56,14 +64,20 @@ public class LogicManager {
             Character enemie = characters.get(i);
 
             if (enemie.getRectangle().overlaps(resourceManager.getPlayer().getRectangle())) {
-                resourceManager.getPlayer().setLives(resourceManager.getPlayer().getLives() - 1);
 
-                Explosion exp = new Explosion(enemie.getRectangle().x - 100, enemie.getRectangle().y - 100, resourceManager.getExplosionAnimation());
-                resourceManager.getPlayer().takeDamage();
-                colisions.add(exp);
-                resourceManager.getExplosionSound().play();
+                if (!enemie.isDoDamage()) {
+                    resourceManager.getPlayer().takeDamage();
+                    resourceManager.getPlayer().setLives(resourceManager.getPlayer().getLives() - 1);
+                    resourceManager.getDamageSound().play();
+                    enemie.setDoDamage(true);
 
-                characters.removeValue(enemie, true);
+                    if (enemie instanceof Kamikaze) {
+                        characters.removeValue(enemie, true);
+                    }
+                }
+
+            } else {
+                enemie.setDoDamage(false);
             }
 
             if (enemie.getPosition().y < -enemie.getTexture().getHeight()) {
@@ -75,23 +89,31 @@ public class LogicManager {
 
                 if (shoot.getRectangle().overlaps(enemie.getRectangle())) {
                     //TODO AÑADIR PUNTOS AL AL SCORE
-                    Explosion exp = new Explosion(
-                        enemie.getRectangle().x - 100, enemie.getRectangle().y - 100,
-                        resourceManager.getExplosionAnimation());
+                    if (enemie.getLives() > 1) {
+                        enemie.setLives(enemie.getLives() - 1);
+                        resourceManager.getShootColision().play();
+                        shoots.removeValue(shoot, true);
 
-                    colisions.add(exp);
-                    resourceManager.getExplosionSound().play();
-
-                    characters.removeValue(enemie, true);
-                    shoots.removeValue(shoot, true);
-
+                    } else {
+                        Explosion exp = new Explosion(
+                            enemie.getRectangle().x - 100,
+                            enemie.getRectangle().y - 100,
+                            resourceManager.getExplosionAnimation());
+                        colisions.add(exp);
+                        resourceManager.getExplosionSound().play();
+                        characters.removeValue(enemie, true);
+                        shoots.removeValue(shoot, true);
+                        if (enemie.getClass().isAssignableFrom(ShieldShip.class)) {
+                            resourceManager.getPlayer().setScore(resourceManager.getPlayer().getScore() + 50);
+                        }
+                    }
                 }
             }
         }
     }
 
 
-    public void updateEffects(float delta, Array<Effect> effects) {
+    public void updateEffects(Array<Effect> effects) {
         for (int i = 0; i < effects.size; i++) {
             // Solo comprobamos si ha terminado para borrarlo
             if (effects.get(i).isFinished()) {
@@ -104,9 +126,9 @@ public class LogicManager {
     public void handleInput(float delta, Player player, Array<Shoot> shoots) {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            shoots.add(new Shoot(resourceManager.getShootTexture(),
-                resourceManager.getPlayer().getPosition().x + 6,
-                resourceManager.getPlayer().getPosition().y));
+            shoots.add(new Shoot(resourceManager.getShootTexture(), resourceManager.getPlayer().getPosition().x + 6, resourceManager.getPlayer().getPosition().y));
+
+            resourceManager.getShootSound().play();
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
@@ -132,6 +154,4 @@ public class LogicManager {
             shoot.getRectangle().setPosition(shoot.getPosition().x, shoot.getPosition().y);
         }
     }
-
-    //TODO ELIMINAR LOS DISPAROS DE LA MEMORIA CUANDO SALEN DE LA PANTALLA
 }

@@ -24,12 +24,14 @@ public class Player implements Disposable {
     private boolean isShooting;
     private float blinkTimer;
     private float blinkDuration = 2.0f;
+    private int score;
 
     public Player(Texture texture) {
         this.texture = texture;
         position = new Vector2(100, 100);
         rectangle = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
         lives = 5;
+        score = 0;
     }
 
     public void takeDamage() {

@@ -12,7 +12,7 @@ public class Kamikaze extends Character {
     private int direccionX = 1;
 
     public Kamikaze(Texture texture, int x, int y) {
-        super(texture, new Vector2(x, y));
+        super(texture, new Vector2(x, y), 1);
     }
 
     public void draw(Batch batch) {
@@ -21,7 +21,7 @@ public class Kamikaze extends Character {
 
     @Override
     public void move(float delta) {
-        timer += delta;
+        /*timer += delta;
         if (timer >= 2.0F) {
             direccionX = -1;
             timer = 0;
@@ -30,6 +30,20 @@ public class Kamikaze extends Character {
         position.y -= KAMIKAZE_SPEED * delta;
         position.x -= (KAMIKAZE_SPEED * direccionX) * delta;
         rectangle.y = position.y;
-        rectangle.x = position.x;
+        rectangle.x = position.x;*/
     }
+
+    public void followPlayer (Vector2 playerPos, float delta) {
+
+        Vector2 vEnemigo = new Vector2(position.x, position.y);
+
+        // Calcula la dirección y la normaliza en una sola línea
+        Vector2 direccion = playerPos.cpy().sub(vEnemigo).nor();
+        // Aplicamos el movimiento
+        position.add(direccion.scl(KAMIKAZE_SPEED * delta));
+        rectangle.setPosition(position.x, position.y);
+
+    }
+
+
 }
