@@ -14,16 +14,24 @@ import lombok.Data;
 @Data
 public class ResourceManager {
 
-    private Texture playerTexture;
     private Texture asteroidTexture;
     private Texture kamikazeTexture;
-    private Texture shieldShipTexture;
-    private Texture explosionSheet;
-    private Texture background;
-    private Texture background2;
+    private Texture enemieShip;
     private Texture shootTexture;
 
+    private Texture playerShip;
+    private Texture explosionSheet;
+    private Texture asteroidSheet;
+    private Texture kamikazeSheet;
+
+    private Texture background;
+    private Texture background2;
+
+
     private Animation<TextureRegion> explosionAnimation;
+    private Animation<TextureRegion> asteroidAnimation;
+    private Animation<TextureRegion> shipAnimation;
+    private Animation<TextureRegion> kamikazeAnimation;
 
     private Player player;
     private Sound explosionSound;
@@ -37,42 +45,60 @@ public class ResourceManager {
     public void loadAll() {
         background = new  Texture(Gdx.files.internal("textures/corona_ft.png"));
         background2 = new  Texture(Gdx.files.internal("textures/redeclipse_bk.png"));
-        player = new Player(new Texture(Gdx.files.internal("textures/Ship2.png")));
-        playerTexture = new Texture(Gdx.files.internal("textures/Ship2.png"));
-        asteroidTexture = new Texture(Gdx.files.internal("textures/asteroid.png"));
         kamikazeTexture = new Texture(Gdx.files.internal("textures/kamikaze.png"));
-        shieldShipTexture = new Texture(Gdx.files.internal("textures/shieldship.png"));
+        enemieShip = new Texture(Gdx.files.internal("textures/shieldship.png"));
         shootTexture = new Texture(Gdx.files.internal("textures/shoot.png"));
-        explosionSheet = new Texture(Gdx.files.internal("textures/explosion.png"));
         explosionSound = Gdx.audio.newSound(Gdx.files.internal("sounds/explosion.mp3"));
         shootSound = Gdx.audio.newSound(Gdx.files.internal("sounds/shoot.wav"));
         shootColision = Gdx.audio.newSound(Gdx.files.internal("sounds/shootColision.mp3"));
         damageSound = Gdx.audio.newSound(Gdx.files.internal("sounds/damage.wav"));
-        music1 = Gdx.audio.newMusic(Gdx.files.internal("sounds/level1.mp3"));
         music2 = Gdx.audio.newMusic(Gdx.files.internal("sounds/level2.wav"));
+        music1 = Gdx.audio.newMusic(Gdx.files.internal("sounds/level1.mp3"));
 
 
+        playerShip = new Texture(Gdx.files.internal("textures/tira_ships.png"));
+        explosionSheet = new Texture(Gdx.files.internal("textures/boom.png"));
+        asteroidSheet = new Texture(Gdx.files.internal("textures/tira_asteroides.png"));
+        kamikazeSheet = new Texture(Gdx.files.internal("textures/tira_kamikazes.png"));
+
+        //CREAMOS LAS ANIMACIONES
+        explosionAnimation = AnimationHelper.createAnimation(explosionSheet, 11, 1, 0.07f, false);
+        asteroidAnimation = AnimationHelper.createAnimation(asteroidSheet, 16, 1, 0.05f, true);
+        shipAnimation = AnimationHelper.createAnimation(playerShip, 4, 1, 0.08f, true);
+        kamikazeAnimation = AnimationHelper.createAnimation(kamikazeSheet, 10, 1, 0.07f, true);
 
         fontLives = new BitmapFont();
         fontLevel = new BitmapFont();
         fontTitle = new BitmapFont();
 
-        //setea tamaño
+        //SETEA TAMAÑO
         fontLives.getData().setScale(2f);
         fontLevel.getData().setScale(2f);
         fontTitle.getData().setScale(4f);
         fontTitle.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
 
-        explosionAnimation = AnimationHelper.createAnimation(explosionSheet, 2, 8, 0.07f);
-
     }
 
         // LIBERA DE LA MEMORIA SI YA NO HAY TEXTURA
         public void dispose () {
-            if (playerTexture != null) playerTexture.dispose();
-            if (asteroidTexture != null) asteroidTexture.dispose();
-            if (kamikazeTexture != null) kamikazeTexture.dispose();
-            if (shieldShipTexture != null) shieldShipTexture.dispose();
-        }
+            background.dispose();
+            background2.dispose();
+            playerShip.dispose();
+            asteroidSheet.dispose();
+            kamikazeTexture.dispose();
+            enemieShip.dispose();
+            shootTexture.dispose();
+            explosionSheet.dispose();
+
+            // Sonidos (Efectos cortos)
+            explosionSound.dispose();
+            shootSound.dispose();
+            shootColision.dispose();
+            damageSound.dispose();
+
+            // Música (Archivos largos)
+            music1.dispose();
+            music2.dispose();
+         }
     }

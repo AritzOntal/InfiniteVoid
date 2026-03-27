@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.badlogic.gdx.utils.Array;
 import com.svalero.infinitevoid.domain.*;
-import com.svalero.infinitevoid.domain.Character;
+import com.svalero.infinitevoid.domain.Enemy;
 import com.svalero.infinitevoid.manager.LevelManager;
 import com.svalero.infinitevoid.manager.LogicManager;
 import com.svalero.infinitevoid.manager.RenderManager;
@@ -21,8 +21,9 @@ public class GameScreen implements Screen {
     private RenderManager renderManager;
     private float timePlayed;
     private Array<Effect> effects;
-    private Array<Character> characters;
+    private Array<Enemy> characters;
     private Array<Shoot> shoots;
+    private Player player;
 
 
     @Override
@@ -38,18 +39,19 @@ public class GameScreen implements Screen {
 
         //CARGAMOS RECURSOS
         resourceManager.loadAll();
+        player = new Player(resourceManager.getShipAnimation());
         resourceManager.getMusic1().play();
     }
 
     @Override
     public void render(float delta) {
         timePlayed += delta;
-        logicManager.handleInput(delta, resourceManager.getPlayer(), shoots);
-        levelManager.checkLevelUp(resourceManager.getPlayer().getScore());
-        logicManager.spawnEnemies(characters, delta);
-        logicManager.CheckColisions(characters, effects, delta, shoots);
+        logicManager.handleInput(delta, player, shoots);
+        levelManager.checkLevelUp(player.getScore());
+        logicManager.spawnEnemies(characters, delta, player);
+        logicManager.CheckColisions(characters, effects, delta, shoots, player);
         logicManager.updateEffects(effects);
-        renderManager.render(resourceManager.getPlayer(), characters, effects, shoots, delta);
+        renderManager.render(player, characters, effects, shoots, delta);
 
     }
 
@@ -69,7 +71,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void hide() {
-
+        dispose();
     }
 
     @Override

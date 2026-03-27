@@ -2,12 +2,10 @@ package com.svalero.infinitevoid.manager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.svalero.infinitevoid.domain.Effect;
-import com.svalero.infinitevoid.domain.Character;
+import com.svalero.infinitevoid.domain.Enemy;
 import com.svalero.infinitevoid.domain.Player;
 import com.svalero.infinitevoid.domain.Shoot;
 
@@ -25,11 +23,10 @@ public class RenderManager {
         this.lev = levelManager;
     }
 
-    public void render(Player player, Array<Character> characters, Array<Effect> effects, Array<Shoot> shoots, float delta) {
+    public void render(Player player, Array<Enemy> enemies, Array<Effect> effects, Array<Shoot> shoots, float delta) {
 
         batch.begin();
-
-        res.getPlayer().update(delta);
+        player.update(delta);
 
         if (lev.getCurrentLevel() < 2) {
             batch.draw(res.getBackground(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -55,7 +52,8 @@ public class RenderManager {
         player.draw(batch);
         batch.setColor(Color.WHITE);
 
-        for (Character enemie : characters) {
+        for (Enemy enemie : enemies) {
+            enemie.update(delta);
             enemie.draw(batch);
         }
 
@@ -64,6 +62,7 @@ public class RenderManager {
         }
 
         for (Shoot shoot : shoots) {
+            shoot.update(delta);
             shoot.draw(batch);
         }
 

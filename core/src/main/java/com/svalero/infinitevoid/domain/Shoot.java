@@ -3,13 +3,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import static com.svalero.infinitevoid.Util.Constants.SHOOT_SPEED;
 
-public class Shoot extends Character {
+public class Shoot extends Entity {
 
-    public Shoot(Texture texture, float x, float y) {
-        super(texture, new Vector2(x, y), 1);
+    public Shoot(Texture texture, float x, float y, int lives) {
+        super(texture, new Vector2(x, y), lives);
     }
 
-    @Override
     public void move(float delta) {
         position.y += SHOOT_SPEED * delta;
     }

@@ -1,30 +1,24 @@
 package com.svalero.infinitevoid.domain;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
-import com.badlogic.gdx.utils.Disposable;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+import static com.svalero.infinitevoid.Util.Constants.ASTEROID_LIVES;
 import static com.svalero.infinitevoid.Util.Constants.ASTEROID_SPEED;
 
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class Asteroid extends Enemy {
 
-public class Asteroid extends Character{
-
-
-    public Asteroid(Texture texture, int x, int y) {
-        super(texture, new Vector2(x, y), 1);
-    }
-
-    public void draw(Batch batch) {
-        batch.draw(texture, position.x, position.y);
+    public Asteroid(Animation<TextureRegion> animation, float x, float y) {
+        super(animation, new Vector2(x, y), ASTEROID_LIVES);
     }
 
     @Override
-    public void move(float delta)    {
+    public void move(float delta) {
         position.y -= ASTEROID_SPEED * delta;
         rectangle.y = position.y;
     }
