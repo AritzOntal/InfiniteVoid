@@ -1,37 +1,25 @@
 package com.svalero.infinitevoid.domain;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Disposable;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import static com.svalero.infinitevoid.Util.Constants.PLAYER_SPEED;
+import static com.svalero.infinitevoid.Util.Constants.*;
 
 @Data
-@AllArgsConstructor
-public class Player implements Disposable {
-    private Rectangle rectangle;
-    private Vector2 position;
-    private Texture texture;
-    private int lives;
+@EqualsAndHashCode(callSuper = true)
+public class Player extends Entity {
     private boolean isBlinking;
     private boolean isShooting;
     private float blinkTimer;
-    private float blinkDuration = 2.0f;
+    private float blinkDuration = PLAYER_BLINKING_TIME;
     private int score;
 
-    public Player(Texture texture) {
-        this.texture = texture;
-        position = new Vector2(100, 100);
-        rectangle = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
-        lives = 5;
-        score = 0;
+    public Player(Animation<TextureRegion> animation) {
+        super(animation, new Vector2(100, 100), PLAYER_LIVES);
+        this.score = PLAYER_SCORE;
     }
 
     public void takeDamage() {
@@ -39,23 +27,15 @@ public class Player implements Disposable {
         blinkTimer = 0;
     }
 
+    @Override
     public void update(float delta) {
+        super.update(delta); // Suma el delta al stateTime de la animación en Entity
+
         if (isBlinking) {
             blinkTimer += delta;
             if (blinkTimer >= blinkDuration) {
                 isBlinking = false;
             }
         }
-    }
-
-    public void draw(Batch batch) {
-        batch.draw(texture, position.x, position.y);
-    }
-
-
-
-    @Override
-    public void dispose() {
-        texture.dispose();
     }
 }

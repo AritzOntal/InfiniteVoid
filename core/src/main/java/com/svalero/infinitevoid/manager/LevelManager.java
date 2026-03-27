@@ -3,6 +3,8 @@ package com.svalero.infinitevoid.manager;
 import com.svalero.infinitevoid.Util.Constants;
 import lombok.Data;
 
+import static com.svalero.infinitevoid.Util.Constants.*;
+
 @Data
 public class LevelManager {
 
@@ -16,7 +18,7 @@ public class LevelManager {
     public LevelManager(ResourceManager res) {
         this.res = res;
         this.currentLevel = 1;
-        this.targetScore = 400;
+        this.targetScore = 50;
         this.asteroidSpawnInterval = Constants.ASTEROID_INTERVAL;
         this.kamikazeSpawnInterval = Constants.KAMIKAZE_INTERVAL;
         this.shieldShipSpawnInterval = Constants.SHIELD_INTERVAL;
@@ -40,7 +42,10 @@ public class LevelManager {
             targetScore += 400;
 
             asteroidSpawnInterval *= 0.7f;
-            kamikazeSpawnInterval *= 0.6f;
-            shieldShipSpawnInterval *= 0.9f;
+            kamikazeSpawnInterval *= 0.4f;
+            shieldShipSpawnInterval *= 0.7f;
+
+            KAMIKAZE_SPEED += 100;
+            SHIELD_SPEED += 100;
     }
 }
