@@ -45,7 +45,6 @@ public class ResourceManager {
     public void loadAll() {
         background = new  Texture(Gdx.files.internal("textures/corona_ft.png"));
         background2 = new  Texture(Gdx.files.internal("textures/redeclipse_bk.png"));
-        kamikazeTexture = new Texture(Gdx.files.internal("textures/kamikaze.png"));
         enemieShip = new Texture(Gdx.files.internal("textures/shieldship.png"));
         shootTexture = new Texture(Gdx.files.internal("textures/shoot.png"));
         explosionSound = Gdx.audio.newSound(Gdx.files.internal("sounds/explosion.mp3"));
@@ -63,7 +62,7 @@ public class ResourceManager {
 
         //CREAMOS LAS ANIMACIONES
         explosionAnimation = AnimationHelper.createAnimation(explosionSheet, 11, 1, 0.07f, false);
-        asteroidAnimation = AnimationHelper.createAnimation(asteroidSheet, 16, 1, 0.05f, true);
+        asteroidAnimation = AnimationHelper.createAnimation(asteroidSheet, 16, 1, 0.07f, true);
         shipAnimation = AnimationHelper.createAnimation(playerShip, 4, 1, 0.08f, true);
         kamikazeAnimation = AnimationHelper.createAnimation(kamikazeSheet, 10, 1, 0.07f, true);
 
@@ -75,8 +74,8 @@ public class ResourceManager {
         fontLives.getData().setScale(2f);
         fontLevel.getData().setScale(2f);
         fontTitle.getData().setScale(4f);
-        fontTitle.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
+        fontTitle.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
     }
 
@@ -86,7 +85,6 @@ public class ResourceManager {
             background2.dispose();
             playerShip.dispose();
             asteroidSheet.dispose();
-            kamikazeTexture.dispose();
             enemieShip.dispose();
             shootTexture.dispose();
             explosionSheet.dispose();

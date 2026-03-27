@@ -7,12 +7,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import static com.svalero.infinitevoid.Util.Constants.KAMIKAZE_LIVES;
+import static com.svalero.infinitevoid.Util.Constants.KAMIKAZE_SPEED;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Kamikaze extends Enemy {
-
-    private float speed = 150f;
 
     public Kamikaze(Animation<TextureRegion> animation, float x, float y) {
         super(animation, new Vector2(x, y), KAMIKAZE_LIVES);
@@ -20,15 +19,15 @@ public class Kamikaze extends Enemy {
 
     @Override
     public void move(float delta) {
-        position.y -= speed * delta;
+        position.y -= KAMIKAZE_SPEED * delta;
         rectangle.y = position.y;
     }
 
     public void followPlayer(Vector2 playerPos, float delta) {
         if (position.x < playerPos.x) {
-            position.x += (speed - 50) * delta;
+            position.x += (KAMIKAZE_SPEED - 50) * delta;
         } else if (position.x > playerPos.x) {
-            position.x -= (speed - 50) * delta;
+            position.x -= (KAMIKAZE_SPEED - 50) * delta;
         }
         rectangle.x = position.x;
     }

@@ -25,8 +25,19 @@ public class LogicManager {
         shieldTimer += delta;
 
         if (asteroidTimer >= levelManager.getAsteroidSpawnInterval()) {
-            characters.add(new Asteroid(resourceManager.getAsteroidAnimation(), MathUtils.random(0, 1024), 768));
+
+            float asteroidWidth = resourceManager.getAsteroidAnimation().getKeyFrameIndex(0);
+
+            characters.add(new Asteroid(resourceManager.getAsteroidAnimation(), MathUtils.random(0, Gdx.graphics.getWidth() - asteroidWidth), 768));
             asteroidTimer = 0;
+        }
+
+        if (shieldTimer >= levelManager.getShieldShipSpawnInterval()) {
+
+            float enemyShip = resourceManager.getEnemieShip().getWidth();
+
+            characters.add(new ShieldShip(resourceManager.getEnemieShip(), MathUtils.random(0, Gdx.graphics.getWidth() - enemyShip), 768));
+            shieldTimer = 0;
         }
 
         if (kamikazeTimer >= levelManager.getKamikazeSpawnInterval()) {
@@ -34,10 +45,6 @@ public class LogicManager {
             kamikazeTimer = 0;
         }
 
-        if (shieldTimer >= levelManager.getShieldShipSpawnInterval()) {
-            characters.add(new ShieldShip(resourceManager.getEnemieShip(), MathUtils.random(0, 1024), 768));
-            shieldTimer = 0;
-        }
 
         for (Enemy enemie : characters) {
             enemie.move(delta);

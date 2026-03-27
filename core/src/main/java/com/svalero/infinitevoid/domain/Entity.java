@@ -30,6 +30,7 @@ public abstract class Entity {
         this.position = position;
         this.stateTime = 0f;
         this.rectangle = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
+        this.lives = lives;
 
         TextureRegion singleFrame = new TextureRegion(texture);
         this.animation = new Animation<>(1f, singleFrame);
