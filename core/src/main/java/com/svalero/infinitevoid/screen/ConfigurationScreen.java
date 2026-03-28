@@ -11,47 +11,59 @@ import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.VisCheckBox;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
+import com.svalero.infinitevoid.InfiniteVoid;
+import com.svalero.infinitevoid.manager.ConfigurationManager;
+import com.svalero.infinitevoid.manager.ResourceManager;
 
 public class ConfigurationScreen implements Screen {
 
     private Stage stage;
+    private ConfigurationManager configurationManager;
+    private ResourceManager resourceManager;
+
 
     @Override
     public void show() {
-
+        InfiniteVoid game = (InfiniteVoid) Gdx.app.getApplicationListener();
+        this.resourceManager = game.getResourceManager();
+        this.configurationManager = game.getConfigurationManager();
 
         if (!VisUI.isLoaded()) {
             VisUI.load();
         }
 
-        stage = new Stage();
-        VisTable table = new VisTable(true);
-        table.setFillParent(true);
-        stage.addActor(table);
+        VisCheckBox checkMusic = new VisCheckBox("Music");
+        checkMusic.setChecked(configurationManager.isMusicEnabled());
+
+        checkMusic.addListener(new com.badlogic.gdx.scenes.scene2d.utils.ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, com.badlogic.gdx.scenes.scene2d.Actor actor) {
+                configurationManager.setMusic(checkMusic.isChecked());
+            }
+        });
 
         VisCheckBox checkSound = new VisCheckBox("Sound effects");
         checkSound.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //todo activar desactivar sonido
-            }
-        });
-
-        VisCheckBox checkMusic = new VisCheckBox("Music");
-        checkMusic.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                //TODO activar desactivar musica de fondo
+                configurationManager.setSounds(checkSound.isChecked());
             }
         });
 
         VisTextButton backMainMenuButton = new VisTextButton("Back");
+        checkSound.setChecked(configurationManager.isSoundEnabled());
         backMainMenuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
             }
         });
+
+
+        stage = new Stage();
+        VisTable table = new VisTable(true);
+        table.setFillParent(true);
+        stage.addActor(table);
 
         table.row();
         table.add(checkSound).center().width(300).height(100).pad(2);
@@ -61,6 +73,7 @@ public class ConfigurationScreen implements Screen {
         table.add(backMainMenuButton).center().width(300).height(100).pad(2);
 
         Gdx.input.setInputProcessor(stage);
+
     }
 
     @Override

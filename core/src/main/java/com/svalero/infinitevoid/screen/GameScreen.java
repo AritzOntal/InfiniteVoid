@@ -7,12 +7,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.badlogic.gdx.utils.Array;
+import com.svalero.infinitevoid.InfiniteVoid;
 import com.svalero.infinitevoid.domain.*;
 import com.svalero.infinitevoid.domain.Enemy;
-import com.svalero.infinitevoid.manager.LevelManager;
-import com.svalero.infinitevoid.manager.LogicManager;
-import com.svalero.infinitevoid.manager.RenderManager;
-import com.svalero.infinitevoid.manager.ResourceManager;
+import com.svalero.infinitevoid.manager.*;
 
 
 public class GameScreen implements Screen {
@@ -27,28 +25,32 @@ public class GameScreen implements Screen {
     private Array<Enemy> characters;
     private Array<Shoot> shoots;
     private Player player;
+    private ConfigurationManager configurationManager;
 
 
     @Override
     public void show() {
-        resourceManager = new ResourceManager();
-        levelManager = new LevelManager(resourceManager);
-        logicManager = new LogicManager(resourceManager, levelManager);
-        batch = new SpriteBatch();
-        renderManager = new RenderManager(batch, resourceManager, levelManager);
-        characters = new Array<>();
-        effects = new Array<>();
-        shoots = new Array<>();
+        if (player == null) {
+            //CASTEO
+            InfiniteVoid game = (InfiniteVoid) Gdx.app.getApplicationListener();
+            this.resourceManager = game.getResourceManager();
+            this.configurationManager = game.getConfigurationManager();
 
-        //CARGAMOS RECURSOS
-        resourceManager.loadAll();
-        player = new Player(resourceManager.getShipAnimation());
-        resourceManager.getMusic1().play();
+            levelManager = new LevelManager(resourceManager);
+            logicManager = new LogicManager(resourceManager, levelManager);
+            batch = new SpriteBatch();
+            renderManager = new RenderManager(batch, resourceManager, levelManager);
+            characters = new Array<>();
+            effects = new Array<>();
+            shoots = new Array<>();
+
+            player = new Player(resourceManager.getShipAnimation());
+            configurationManager = new ConfigurationManager(resourceManager);
+        }
     }
 
     @Override
     public void render(float delta) {
-
         timePlayed += delta;
         logicManager.handleInput(delta, player, shoots);
         levelManager.checkLevelUp(player.getScore());
@@ -58,6 +60,11 @@ public class GameScreen implements Screen {
         renderManager.render(player, characters, effects, shoots, delta);
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            //Nos auto pasamos para recordar por donde iba la partida
+            ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(this));
+        }
+
+        if (player.getLives() < 1) {
             ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
         }
 
@@ -79,7 +86,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void hide() {
-        dispose();
+
     }
 
     @Override

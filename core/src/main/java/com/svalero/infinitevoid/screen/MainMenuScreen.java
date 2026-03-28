@@ -13,6 +13,16 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
 
 public class MainMenuScreen implements Screen {
     private Stage stage;
+    private GameScreen activeGame;
+
+    public MainMenuScreen() {
+        this.activeGame = null;
+    }
+
+    // Constructor para cuando esta pausado
+    public MainMenuScreen(GameScreen gameScreen) {
+        this.activeGame = gameScreen;
+    }
 
     @Override
     public void show() {
@@ -24,6 +34,20 @@ public class MainMenuScreen implements Screen {
         VisTable table = new VisTable(true);
         table.setFillParent(true);
         stage.addActor(table);
+
+        if (activeGame != null) {
+            VisTextButton resumeButton = new VisTextButton("Resume Game");
+            resumeButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    // Volvemos a la pantalla que guardamos
+                    ((Game) Gdx.app.getApplicationListener()).setScreen(activeGame);
+                    dispose();
+                }
+            });
+            table.add(resumeButton).center().width(200).height(100).pad(5);
+            table.row();
+        }
 
         VisTextButton playButton = new VisTextButton("Play");
         playButton.addListener(new ClickListener() {
@@ -47,12 +71,10 @@ public class MainMenuScreen implements Screen {
         quitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.exit(0);
+                Gdx.app.exit();
                 dispose();
             }
         });
-
-
 
 
         table.row();
