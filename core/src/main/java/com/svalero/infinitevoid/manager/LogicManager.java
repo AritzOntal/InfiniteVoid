@@ -49,11 +49,11 @@ public class LogicManager {
 
 
         for (Enemy enemie : characters) {
-            enemie.move(delta);
             if (enemie instanceof Kamikaze) {
                 Kamikaze kamikaze = (Kamikaze) enemie;
                 kamikaze.followPlayer(player.getPosition(), delta);
             }
+            enemie.move(delta);
         }
     }
 
