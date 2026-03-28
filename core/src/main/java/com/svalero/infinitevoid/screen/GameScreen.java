@@ -1,5 +1,8 @@
 package com.svalero.infinitevoid.screen;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -45,6 +48,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+
         timePlayed += delta;
         logicManager.handleInput(delta, player, shoots);
         levelManager.checkLevelUp(player.getScore());
@@ -52,6 +56,10 @@ public class GameScreen implements Screen {
         logicManager.CheckColisions(characters, effects, delta, shoots, player);
         logicManager.updateEffects(effects);
         renderManager.render(player, characters, effects, shoots, delta);
+
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
+        }
 
     }
 

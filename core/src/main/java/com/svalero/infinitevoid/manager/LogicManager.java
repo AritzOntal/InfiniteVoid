@@ -1,10 +1,12 @@
 package com.svalero.infinitevoid.manager;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.svalero.infinitevoid.domain.*;
+import com.svalero.infinitevoid.screen.MainMenuScreen;
 
 import static com.svalero.infinitevoid.Util.Constants.PLAYER_SPEED;
 
