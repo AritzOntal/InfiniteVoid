@@ -17,12 +17,7 @@ public class ConfigurationManager {
     }
 
     public void setSounds(boolean enabled) {
-        this.musicEnabled = enabled;
-        if (musicEnabled) {
-            resourceManager.getExplosionSound().play();
-        } else {
-            resourceManager.getExplosionSound().stop();
-        }
+        this.soundEnabled = enabled;
     }
 
     public void setMusic(boolean enabled) {
@@ -35,6 +30,11 @@ public class ConfigurationManager {
             resourceManager.getMusic1().stop();
             resourceManager.getMusic2().stop();
         }
+    }
+
+    public void update () {
+        musicEnabled = true;
+        soundEnabled = true;
     }
 
 }

@@ -20,6 +20,11 @@ public class ConfigurationScreen implements Screen {
     private Stage stage;
     private ConfigurationManager configurationManager;
     private ResourceManager resourceManager;
+    private GameScreen activeGame;
+
+    public ConfigurationScreen(GameScreen activeGame) {
+        this.activeGame = activeGame;
+    }
 
 
     @Override
@@ -32,9 +37,11 @@ public class ConfigurationScreen implements Screen {
             VisUI.load();
         }
 
-        VisCheckBox checkMusic = new VisCheckBox("Music");
-        checkMusic.setChecked(configurationManager.isMusicEnabled());
 
+
+        VisCheckBox checkMusic = new VisCheckBox("Music");
+        //Comprueba el valor anterior
+        checkMusic.setChecked(configurationManager.isMusicEnabled());
         checkMusic.addListener(new com.badlogic.gdx.scenes.scene2d.utils.ChangeListener() {
             @Override
             public void changed(ChangeEvent event, com.badlogic.gdx.scenes.scene2d.Actor actor) {
@@ -42,20 +49,26 @@ public class ConfigurationScreen implements Screen {
             }
         });
 
+
+
         VisCheckBox checkSound = new VisCheckBox("Sound effects");
-        checkSound.addListener(new ClickListener() {
+        //Comprueba el valor anterior
+        checkSound.setChecked(configurationManager.isSoundEnabled());
+        checkSound.addListener(new com.badlogic.gdx.scenes.scene2d.utils.ChangeListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void changed(ChangeEvent event, com.badlogic.gdx.scenes.scene2d.Actor actor) {
                 configurationManager.setSounds(checkSound.isChecked());
             }
         });
+
+
 
         VisTextButton backMainMenuButton = new VisTextButton("Back");
         checkSound.setChecked(configurationManager.isSoundEnabled());
         backMainMenuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(activeGame));
             }
         });
 

@@ -62,7 +62,7 @@ public class MainMenuScreen implements Screen {
         configurationButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new ConfigurationScreen());
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new ConfigurationScreen(activeGame));
                 dispose();
             }
         });
@@ -121,5 +121,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
+
     }
 }

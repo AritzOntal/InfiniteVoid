@@ -36,8 +36,11 @@ public class GameScreen implements Screen {
             this.resourceManager = game.getResourceManager();
             this.configurationManager = game.getConfigurationManager();
 
-            levelManager = new LevelManager(resourceManager);
-            logicManager = new LogicManager(resourceManager, levelManager);
+            configurationManager.update();
+            resourceManager.getMusic1().play();
+
+            levelManager = new LevelManager(resourceManager, configurationManager);
+            logicManager = new LogicManager(resourceManager, levelManager, configurationManager);
             batch = new SpriteBatch();
             renderManager = new RenderManager(batch, resourceManager, levelManager);
             characters = new Array<>();

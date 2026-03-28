@@ -14,14 +14,16 @@ public class LevelManager {
     private float asteroidSpawnInterval;
     private float kamikazeSpawnInterval;
     private float shieldShipSpawnInterval;
+    private ConfigurationManager configurationManager;
 
-    public LevelManager(ResourceManager res) {
+    public LevelManager(ResourceManager res, ConfigurationManager configurationManager) {
         this.res = res;
         this.currentLevel = 1;
         this.targetScore = 50;
         this.asteroidSpawnInterval = Constants.ASTEROID_INTERVAL;
         this.kamikazeSpawnInterval = Constants.KAMIKAZE_INTERVAL;
         this.shieldShipSpawnInterval = Constants.SHIELD_INTERVAL;
+        this.configurationManager = configurationManager;
     }
 
     public boolean checkLevelUp(int score) {
@@ -29,7 +31,9 @@ public class LevelManager {
             levelUp();
             res.getMusic1().stop();
             res.getMusic2().setLooping(true);
-            res.getMusic2().play();
+            if (configurationManager.isSoundEnabled()) {
+                res.getMusic2().play();
+            }
             return true;
         }
         return false;
