@@ -4,8 +4,8 @@
 
 ## 🎮 Instrucciones de Juego
 
-* 🎯 **Objetivo Principal:** Sobrevivir y alcanzar los **[X] puntos** para ganar la partida.
-* ❤️ **Supervivencia:** Inicias tu misión con **[X] vidas**. Si llegan a cero, será el fin.
+* 🎯 **Objetivo Principal:** Sobrevivir y alcanzar los **1000 puntos** para ganar la partida.
+* ❤️ **Supervivencia:** Inicias tu misión con **4 vidas**. Si llegan a cero, será el fin.
 * 💥 **Puntuación:** Cada enemigo alienígena destruido te otorga **50 puntos**.
 * 🚀 **Progresión:** Al acumular una cantidad determinada de puntos, tu nave subirá de nivel automáticamente.
 * ⚠️ **Dificultad ilimitada:** Con cada nuevo nivel, la cantidad y velocidad de los enemigos aumenta de forma progresiva e indefinida.

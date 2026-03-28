@@ -19,7 +19,7 @@ public class LevelManager {
     public LevelManager(ResourceManager res, ConfigurationManager configurationManager) {
         this.res = res;
         this.currentLevel = 1;
-        this.targetScore = 50;
+        this.targetScore = TARGET_SCORE_LEVEL;
         this.asteroidSpawnInterval = Constants.ASTEROID_INTERVAL;
         this.kamikazeSpawnInterval = Constants.KAMIKAZE_INTERVAL;
         this.shieldShipSpawnInterval = Constants.SHIELD_INTERVAL;
@@ -43,13 +43,13 @@ public class LevelManager {
 
         currentLevel++;
 
-            targetScore += 400;
+            targetScore += TARGET_SCORE_LEVEL;
 
             asteroidSpawnInterval *= 0.7f;
-            kamikazeSpawnInterval *= 0.4f;
-            shieldShipSpawnInterval *= 0.7f;
+            kamikazeSpawnInterval *= 0.7f;
+            shieldShipSpawnInterval *= 0.8f;
 
-            KAMIKAZE_SPEED += 100;
-            SHIELD_SPEED += 100;
+            KAMIKAZE_SPEED += 30;
+            SHIELD_SPEED += 20;
     }
 }

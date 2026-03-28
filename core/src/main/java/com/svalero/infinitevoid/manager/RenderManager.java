@@ -28,7 +28,7 @@ public class RenderManager {
         batch.begin();
         player.update(delta);
 
-        if (lev.getCurrentLevel() < 2) {
+        if (lev.getCurrentLevel() < 5) {
             batch.draw(res.getBackground(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         } else {
             batch.draw(res.getBackground2(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

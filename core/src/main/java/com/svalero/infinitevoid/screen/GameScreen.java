@@ -12,6 +12,8 @@ import com.svalero.infinitevoid.domain.*;
 import com.svalero.infinitevoid.domain.Enemy;
 import com.svalero.infinitevoid.manager.*;
 
+import static com.svalero.infinitevoid.Util.Constants.TARGET_SCORE;
+
 
 public class GameScreen implements Screen {
 
@@ -71,7 +73,7 @@ public class GameScreen implements Screen {
             ((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(player, batch, resourceManager));
         }
 
-        if (player.getScore() > 0) {
+        if (player.getScore() > TARGET_SCORE) {
             ((Game) Gdx.app.getApplicationListener()).setScreen(new VictoryScreen(player, resourceManager, batch));
         }
     }

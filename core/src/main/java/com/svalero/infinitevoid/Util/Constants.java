@@ -20,5 +20,6 @@ public class Constants {
 
     public final static float PLAYER_BLINKING_TIME = 2.0f;
     public final static int PLAYER_SCORE = 0;
-
+    public final static int TARGET_SCORE_LEVEL = 200;
+    public final static int TARGET_SCORE = 1000;
 }
