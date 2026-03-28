@@ -30,7 +30,9 @@ public class LevelManager {
         if (score >= targetScore) {
             levelUp();
             res.getMusic1().stop();
-            res.getMusic2().setLooping(true);
+            if(currentLevel > 4) {
+                res.getMusic2().setLooping(true);
+            }
             if (configurationManager.isSoundEnabled()) {
                 res.getMusic2().play();
             }
