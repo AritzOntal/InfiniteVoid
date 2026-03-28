@@ -12,7 +12,6 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 
 public class MainMenuScreen implements Screen {
-
     private Stage stage;
 
     @Override
@@ -35,6 +34,15 @@ public class MainMenuScreen implements Screen {
             }
         });
 
+        VisTextButton configurationButton = new VisTextButton("Configuration");
+        configurationButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new ConfigurationScreen());
+                dispose();
+            }
+        });
+
         VisTextButton quitButton = new VisTextButton("Quit");
         quitButton.addListener(new ClickListener() {
             @Override
@@ -44,8 +52,13 @@ public class MainMenuScreen implements Screen {
             }
         });
 
+
+
+
         table.row();
         table.add(playButton).center().width(200).height(100).pad(5);
+        table.row();
+        table.add(configurationButton).center().width(200).height(100).pad(5);
         table.row();
         table.add(quitButton).center().width(200).height(100).pad(5);
 
