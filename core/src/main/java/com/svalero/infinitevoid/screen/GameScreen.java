@@ -68,9 +68,12 @@ public class GameScreen implements Screen {
         }
 
         if (player.getLives() < 1) {
-            ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen());
+            ((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(player, batch, resourceManager));
         }
 
+        if (player.getScore() > 0) {
+            ((Game) Gdx.app.getApplicationListener()).setScreen(new VictoryScreen(player, resourceManager, batch));
+        }
     }
 
     @Override
