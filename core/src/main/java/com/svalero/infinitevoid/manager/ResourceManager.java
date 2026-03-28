@@ -47,10 +47,14 @@ public class ResourceManager {
         background2 = new  Texture(Gdx.files.internal("textures/redeclipse_bk.png"));
         enemieShip = new Texture(Gdx.files.internal("textures/shieldship.png"));
         shootTexture = new Texture(Gdx.files.internal("textures/shoot.png"));
+
+        //Sonidos
         explosionSound = Gdx.audio.newSound(Gdx.files.internal("sounds/explosion.mp3"));
         shootSound = Gdx.audio.newSound(Gdx.files.internal("sounds/shoot.wav"));
         shootColision = Gdx.audio.newSound(Gdx.files.internal("sounds/shootColision.mp3"));
         damageSound = Gdx.audio.newSound(Gdx.files.internal("sounds/damage.wav"));
+
+        //Música
         music2 = Gdx.audio.newMusic(Gdx.files.internal("sounds/level2.wav"));
         music1 = Gdx.audio.newMusic(Gdx.files.internal("sounds/level1.mp3"));
 

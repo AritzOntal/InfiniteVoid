@@ -8,6 +8,8 @@ import com.badlogic.gdx.utils.Array;
 import com.svalero.infinitevoid.domain.*;
 import com.svalero.infinitevoid.screen.MainMenuScreen;
 
+import java.lang.module.Configuration;
+
 import static com.svalero.infinitevoid.Util.Constants.PLAYER_SPEED;
 
 public class LogicManager {
@@ -15,10 +17,12 @@ public class LogicManager {
     private final ResourceManager resourceManager;
     private final LevelManager levelManager;
     private float asteroidTimer, kamikazeTimer, shieldTimer;
+    private ConfigurationManager configurationManager;
 
-    public LogicManager(ResourceManager resourceManager, LevelManager levelManager) {
+    public LogicManager(ResourceManager resourceManager, LevelManager levelManager, ConfigurationManager configurationManager) {
         this.resourceManager = resourceManager;
         this.levelManager = levelManager;
+        this.configurationManager = configurationManager;
     }
 
     public void spawnEnemies(Array<Enemy> characters, float delta, Player player) {
@@ -67,7 +71,9 @@ public class LogicManager {
                 if (!enemie.isDoDamage()) {
                     player.takeDamage();
                     player.setLives(player.getLives() - 1);
-                    resourceManager.getDamageSound().play();
+                    if (configurationManager.isSoundEnabled()) {
+                        resourceManager.getDamageSound().play();
+                    }
                     enemie.setDoDamage(true);
 
                     if (enemie instanceof Kamikaze) {
@@ -89,7 +95,9 @@ public class LogicManager {
                 if (shoot.getRectangle().overlaps(enemie.getRectangle())) {
                     if (enemie.getLives() > 1) {
                         enemie.setLives(enemie.getLives() - 1);
-                        resourceManager.getShootColision().play();
+                        if (configurationManager.isSoundEnabled()) {
+                            resourceManager.getShootColision().play();
+                        }
                         shoots.removeValue(shoot, true);
 
                     } else {
@@ -98,7 +106,9 @@ public class LogicManager {
                             enemie.getRectangle().y - 100,
                             resourceManager.getExplosionAnimation());
                         colisions.add(exp);
-                        resourceManager.getExplosionSound().play();
+                        if (configurationManager.isSoundEnabled()) {
+                            resourceManager.getExplosionSound().play();
+                        }
                         characters.removeValue(enemie, true);
                         shoots.removeValue(shoot, true);
 
@@ -126,7 +136,9 @@ public class LogicManager {
             shoots.add(new Shoot(resourceManager.getShootTexture(),
                 player.getPosition().x + 6,
                 player.getPosition().y, 1));
-            resourceManager.getShootSound().play();
+            if (configurationManager.isSoundEnabled()) {
+                resourceManager.getShootSound().play();
+            }
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {

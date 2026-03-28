@@ -14,7 +14,7 @@ public abstract class Enemy extends Entity {
     protected boolean doDamage;
 
     public Enemy(Animation<TextureRegion> animation, Vector2 position, int lives) {
-        super(animation, position, lives); // Llama al constructor de Entity
+        super(animation, position, lives);
         this.doDamage = false;
     }
 
