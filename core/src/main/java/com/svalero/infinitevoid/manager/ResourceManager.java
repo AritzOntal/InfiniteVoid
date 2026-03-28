@@ -38,7 +38,7 @@ public class ResourceManager {
     private Sound shootSound, damageSound, shootColision;
     private Music music1, music2;
 
-    private BitmapFont fontLives, fontLevel, fontTitle;
+    private BitmapFont fontLives, fontLevel, fontTitle, fontWin;
 
 
     // CARGA EN MEMORIA LAS TEXTURAS
@@ -73,11 +73,14 @@ public class ResourceManager {
         fontLives = new BitmapFont();
         fontLevel = new BitmapFont();
         fontTitle = new BitmapFont();
+        fontWin = new BitmapFont();
 
         //SETEA TAMAÑO
         fontLives.getData().setScale(2f);
         fontLevel.getData().setScale(2f);
         fontTitle.getData().setScale(4f);
+        fontWin.getData().setScale(10f);
+
 
         fontTitle.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
