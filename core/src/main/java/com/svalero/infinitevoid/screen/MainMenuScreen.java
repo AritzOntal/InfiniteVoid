@@ -10,18 +10,18 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
+import com.svalero.infinitevoid.InfiniteVoid;
 
 public class MainMenuScreen implements Screen {
     private Stage stage;
     private GameScreen activeGame;
+    private InfiniteVoid infiniteVoid;
 
-    public MainMenuScreen() {
-        this.activeGame = null;
-    }
 
     // Constructor para cuando esta pausado
-    public MainMenuScreen(GameScreen gameScreen) {
-        this.activeGame = gameScreen;
+    public MainMenuScreen(InfiniteVoid infiniteVoid, GameScreen activeGame) {
+        this.activeGame = activeGame;
+        this.infiniteVoid = infiniteVoid;
     }
 
     @Override

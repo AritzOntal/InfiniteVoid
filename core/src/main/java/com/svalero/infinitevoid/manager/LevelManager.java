@@ -1,5 +1,6 @@
 package com.svalero.infinitevoid.manager;
 
+import com.svalero.infinitevoid.Services.AudioService;
 import com.svalero.infinitevoid.Util.Constants;
 import lombok.Data;
 
@@ -15,8 +16,9 @@ public class LevelManager {
     private float kamikazeSpawnInterval;
     private float shieldShipSpawnInterval;
     private ConfigurationManager configurationManager;
+    private AudioService audioService;
 
-    public LevelManager(ResourceManager res, ConfigurationManager configurationManager) {
+    public LevelManager(ResourceManager res, ConfigurationManager configurationManagerm, AudioService audioService) {
         this.res = res;
         this.currentLevel = 1;
         this.targetScore = TARGET_SCORE_LEVEL;
@@ -24,18 +26,13 @@ public class LevelManager {
         this.kamikazeSpawnInterval = Constants.KAMIKAZE_INTERVAL;
         this.shieldShipSpawnInterval = Constants.SHIELD_INTERVAL;
         this.configurationManager = configurationManager;
+        this.audioService = audioService;
     }
 
     public boolean checkLevelUp(int score) {
         if (score >= targetScore) {
             levelUp();
-            res.getMusic1().stop();
-            if(currentLevel > 4) {
-                res.getMusic2().setLooping(true);
-            }
-            if (configurationManager.isSoundEnabled()) {
-                res.getMusic2().play();
-            }
+            audioService.playMusic(currentLevel);
             return true;
         }
         return false;

@@ -1,14 +1,11 @@
 package com.svalero.infinitevoid.manager;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import com.svalero.infinitevoid.Services.AudioService;
 import com.svalero.infinitevoid.domain.*;
-import com.svalero.infinitevoid.screen.MainMenuScreen;
-
-import java.lang.module.Configuration;
 
 import static com.svalero.infinitevoid.Util.Constants.PLAYER_SPEED;
 
@@ -18,11 +15,13 @@ public class LogicManager {
     private final LevelManager levelManager;
     private float asteroidTimer, kamikazeTimer, shieldTimer;
     private ConfigurationManager configurationManager;
+    private AudioService audioService;
 
-    public LogicManager(ResourceManager resourceManager, LevelManager levelManager, ConfigurationManager configurationManager) {
+    public LogicManager(ResourceManager resourceManager, LevelManager levelManager, ConfigurationManager configurationManager, AudioService audioService) {
         this.resourceManager = resourceManager;
         this.levelManager = levelManager;
         this.configurationManager = configurationManager;
+        this.audioService = audioService;
     }
 
     public void spawnEnemies(Array<Enemy> characters, float delta, Player player) {
@@ -40,9 +39,9 @@ public class LogicManager {
 
         if (shieldTimer >= levelManager.getShieldShipSpawnInterval()) {
 
-            float enemyShip = resourceManager.getEnemieShip().getWidth();
+            float enemyShip = resourceManager.getEnemyTexture().getWidth();
 
-            characters.add(new ShieldShip(resourceManager.getEnemieShip(), MathUtils.random(0, Gdx.graphics.getWidth() - enemyShip), 768));
+            characters.add(new ShieldShip(resourceManager.getEnemyTexture(), MathUtils.random(0, Gdx.graphics.getWidth() - enemyShip), 768));
             shieldTimer = 0;
         }
 
@@ -71,16 +70,12 @@ public class LogicManager {
                 if (!enemie.isDoDamage()) {
                     player.takeDamage();
                     player.setLives(player.getLives() - 1);
-                    if (configurationManager.isSoundEnabled()) {
-                        resourceManager.getDamageSound().play();
-                    }
+                    audioService.playPlayerDamage();
                     enemie.setDoDamage(true);
-
                     if (enemie instanceof Kamikaze) {
                         characters.removeValue(enemie, true);
                     }
                 }
-
             } else {
                 enemie.setDoDamage(false);
             }
@@ -95,9 +90,8 @@ public class LogicManager {
                 if (shoot.getRectangle().overlaps(enemie.getRectangle())) {
                     if (enemie.getLives() > 1) {
                         enemie.setLives(enemie.getLives() - 1);
-                        if (configurationManager.isSoundEnabled()) {
-                            resourceManager.getShootColision().play();
-                        }
+                        audioService.playShootColision();
+
                         shoots.removeValue(shoot, true);
 
                     } else {
@@ -106,9 +100,8 @@ public class LogicManager {
                             enemie.getRectangle().y - 100,
                             resourceManager.getExplosionAnimation());
                         colisions.add(exp);
-                        if (configurationManager.isSoundEnabled()) {
-                            resourceManager.getExplosionSound().play();
-                        }
+                        audioService.playExplosion();
+
                         characters.removeValue(enemie, true);
                         shoots.removeValue(shoot, true);
 
@@ -136,9 +129,7 @@ public class LogicManager {
             shoots.add(new Shoot(resourceManager.getShootTexture(),
                 player.getPosition().x + 6,
                 player.getPosition().y, 1));
-            if (configurationManager.isSoundEnabled()) {
-                resourceManager.getShootSound().play();
-            }
+            audioService.playShootSound();
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.badlogic.gdx.utils.Array;
 import com.svalero.infinitevoid.InfiniteVoid;
+import com.svalero.infinitevoid.Services.AudioService;
 import com.svalero.infinitevoid.domain.*;
 import com.svalero.infinitevoid.domain.Enemy;
 import com.svalero.infinitevoid.manager.*;
@@ -28,6 +29,8 @@ public class GameScreen implements Screen {
     private Array<Shoot> shoots;
     private Player player;
     private ConfigurationManager configurationManager;
+    private InfiniteVoid game;
+    private AudioService audioService;
 
 
     @Override
@@ -35,14 +38,18 @@ public class GameScreen implements Screen {
         if (player == null) {
             //CASTEO
             InfiniteVoid game = (InfiniteVoid) Gdx.app.getApplicationListener();
+
+            this.game = (InfiniteVoid) Gdx.app.getApplicationListener();
             this.resourceManager = game.getResourceManager();
             this.configurationManager = game.getConfigurationManager();
+            this.audioService = game.getAudioService();
 
             configurationManager.update();
-            resourceManager.getMusic1().play();
 
-            levelManager = new LevelManager(resourceManager, configurationManager);
-            logicManager = new LogicManager(resourceManager, levelManager, configurationManager);
+            levelManager = new LevelManager(resourceManager, configurationManager, audioService);
+            logicManager = new LogicManager(resourceManager, levelManager, configurationManager, audioService);
+            audioService.playMusic(levelManager.getCurrentLevel());
+
             batch = new SpriteBatch();
             renderManager = new RenderManager(batch, resourceManager, levelManager);
             characters = new Array<>();
@@ -50,7 +57,7 @@ public class GameScreen implements Screen {
             shoots = new Array<>();
 
             player = new Player(resourceManager.getShipAnimation());
-            configurationManager = new ConfigurationManager(resourceManager);
+            audioService.playMusic(levelManager.getCurrentLevel());
         }
     }
 
@@ -66,7 +73,7 @@ public class GameScreen implements Screen {
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             //Nos auto pasamos para recordar por donde iba la partida
-            ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(this));
+            ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(game, this));
         }
 
         if (player.getLives() < 1) {

@@ -33,7 +33,6 @@ public class VictoryScreen implements Screen {
 
     @Override
     public void show() {
-
         if (!VisUI.isLoaded()) {
             VisUI.load();
         }

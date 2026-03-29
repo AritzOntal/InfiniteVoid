@@ -68,7 +68,7 @@ public class ConfigurationScreen implements Screen {
         backMainMenuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(activeGame));
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(game, activeGame));
             }
         });
 
