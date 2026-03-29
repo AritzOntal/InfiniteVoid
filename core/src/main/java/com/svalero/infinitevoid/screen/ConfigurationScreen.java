@@ -39,7 +39,7 @@ public class ConfigurationScreen implements Screen {
 
 
 
-        VisCheckBox checkMusic = new VisCheckBox("Music");
+        VisCheckBox checkMusic = new VisCheckBox("Música");
         //Comprueba el valor anterior
         checkMusic.setChecked(configurationManager.isMusicEnabled());
         checkMusic.addListener(new com.badlogic.gdx.scenes.scene2d.utils.ChangeListener() {
@@ -51,7 +51,7 @@ public class ConfigurationScreen implements Screen {
 
 
 
-        VisCheckBox checkSound = new VisCheckBox("Sound effects");
+        VisCheckBox checkSound = new VisCheckBox("Efectos de sonido");
         //Comprueba el valor anterior
         checkSound.setChecked(configurationManager.isSoundEnabled());
         checkSound.addListener(new com.badlogic.gdx.scenes.scene2d.utils.ChangeListener() {
@@ -63,7 +63,7 @@ public class ConfigurationScreen implements Screen {
 
 
 
-        VisTextButton backMainMenuButton = new VisTextButton("Back");
+        VisTextButton backMainMenuButton = new VisTextButton("Atrás");
         checkSound.setChecked(configurationManager.isSoundEnabled());
         backMainMenuButton.addListener(new ClickListener() {
             @Override

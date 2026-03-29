@@ -36,7 +36,7 @@ public class MainMenuScreen implements Screen {
         stage.addActor(table);
 
         if (activeGame != null) {
-            VisTextButton resumeButton = new VisTextButton("Resume Game");
+            VisTextButton resumeButton = new VisTextButton("Volver al juego");
             resumeButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -49,7 +49,7 @@ public class MainMenuScreen implements Screen {
             table.row();
         }
 
-        VisTextButton playButton = new VisTextButton("Play");
+        VisTextButton playButton = new VisTextButton("Jugar");
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -58,7 +58,7 @@ public class MainMenuScreen implements Screen {
             }
         });
 
-        VisTextButton configurationButton = new VisTextButton("Configuration");
+        VisTextButton configurationButton = new VisTextButton("Configuración");
         configurationButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -67,7 +67,25 @@ public class MainMenuScreen implements Screen {
             }
         });
 
-        VisTextButton quitButton = new VisTextButton("Quit");
+        VisTextButton instructionsButton = new VisTextButton("Instrucciones");
+        instructionsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // Ventana emergente
+                com.kotcrab.vis.ui.widget.VisDialog dialog = new com.kotcrab.vis.ui.widget.VisDialog("Como Jugar");
+
+                // \n es para salto de línea
+                dialog.text("Movimiento: FLECHAS DEL TECLADO\n" +
+                    "Disparar: BARRA ESPACIADORA\n\n" +
+                    "Objetivo: Destruye enemigos, consigue puntos\n" +
+                    "y sobrevive sin perder todas tus vidas.");
+
+                dialog.button("Entendido");
+                dialog.show(stage);
+            }
+        });
+
+        VisTextButton quitButton = new VisTextButton("Salir");
         quitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -81,6 +99,8 @@ public class MainMenuScreen implements Screen {
         table.add(playButton).center().width(200).height(100).pad(5);
         table.row();
         table.add(configurationButton).center().width(200).height(100).pad(5);
+        table.row();
+        table.add(instructionsButton).center().width(200).height(100).pad(5);
         table.row();
         table.add(quitButton).center().width(200).height(100).pad(5);
 
