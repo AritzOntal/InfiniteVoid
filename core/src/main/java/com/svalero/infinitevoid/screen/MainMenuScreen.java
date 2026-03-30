@@ -10,18 +10,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
+import com.svalero.infinitevoid.InfiniteVoid;
 
 public class MainMenuScreen implements Screen {
     private Stage stage;
     private GameScreen activeGame;
-
-    public MainMenuScreen() {
-        this.activeGame = null;
-    }
+    private InfiniteVoid infiniteVoid;
 
     // Constructor para cuando esta pausado
-    public MainMenuScreen(GameScreen gameScreen) {
-        this.activeGame = gameScreen;
+    public MainMenuScreen(InfiniteVoid infiniteVoid, GameScreen activeGame) {
+        this.activeGame = activeGame;
+        this.infiniteVoid = infiniteVoid;
     }
 
     @Override
@@ -71,6 +70,7 @@ public class MainMenuScreen implements Screen {
         instructionsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
                 // Ventana emergente
                 com.kotcrab.vis.ui.widget.VisDialog dialog = new com.kotcrab.vis.ui.widget.VisDialog("Como Jugar");
 
@@ -94,7 +94,6 @@ public class MainMenuScreen implements Screen {
             }
         });
 
-
         table.row();
         table.add(playButton).center().width(200).height(100).pad(5);
         table.row();
@@ -106,7 +105,6 @@ public class MainMenuScreen implements Screen {
 
         //PARA QUE LEA LOS INPUTS
         Gdx.input.setInputProcessor(stage);
-
     }
 
     @Override
@@ -123,8 +121,6 @@ public class MainMenuScreen implements Screen {
         if (width > 0 && height > 0) {
         stage.getViewport().update(width, height, true);
         }
-
-
     }
 
     @Override
@@ -141,6 +137,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 }

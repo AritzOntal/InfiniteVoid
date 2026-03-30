@@ -22,4 +22,5 @@ public class Constants {
     public final static int PLAYER_SCORE = 0;
     public final static int TARGET_SCORE_LEVEL = 200;
     public final static int TARGET_SCORE = 1000;
+    public final static int CURRENT_LEVEL = 1;
 }

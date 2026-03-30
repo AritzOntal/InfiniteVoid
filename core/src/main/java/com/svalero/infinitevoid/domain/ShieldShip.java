@@ -19,7 +19,7 @@ public class ShieldShip extends Enemy {
     }
 
     @Override
-    public void move(float delta) {
+    public void move(float delta, Vector2 playerPos) {
         position.y -= SHIELD_SPEED * delta;
         rectangle.y = position.y;
     }

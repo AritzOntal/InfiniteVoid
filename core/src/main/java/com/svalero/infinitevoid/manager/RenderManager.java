@@ -24,9 +24,7 @@ public class RenderManager {
     }
 
     public void render(Player player, Array<Enemy> enemies, Array<Effect> effects, Array<Shoot> shoots, float delta) {
-
         batch.begin();
-        player.update(delta);
 
         if (lev.getCurrentLevel() < 5) {
             batch.draw(res.getBackground(), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -39,18 +37,6 @@ public class RenderManager {
         } else {
             res.getFontLives().setColor(Color.RED);
         }
-
-        //Renderizado de parpadeo
-        if (player.isBlinking()) {
-            if ((player.getBlinkTimer() % 0.2f) < 0.1f) {
-                batch.setColor(1, 1, 1, 0);
-            } else {
-                batch.setColor(1, 1, 1, 1); // Visible
-            }
-        }
-
-        player.draw(batch);
-        batch.setColor(Color.WHITE);
 
         for (Enemy enemie : enemies) {
             enemie.update(delta);
@@ -66,11 +52,23 @@ public class RenderManager {
             shoot.draw(batch);
         }
 
+        player.update(delta);
+
+        //Renderizado de parpadeo
+        if (player.isBlinking()) {
+            if ((player.getBlinkTimer() % 0.2f) < 0.1f) {
+                batch.setColor(1, 1, 1, 0);
+            } else {
+                batch.setColor(1, 1, 1, 1); // Visible
+            }
+        }
+
+        player.draw(batch);
+        batch.setColor(Color.WHITE);
+
         res.getFontLives().draw(batch, "Lives: " + player.getLives(), 20, Gdx.graphics.getHeight() - 10);
         res.getFontLevel().draw(batch, "Level: " + lev.getCurrentLevel(), 20, Gdx.graphics.getHeight() - 45);
         res.getFontLevel().draw(batch, "Score: " + player.getScore(), 20, Gdx.graphics.getHeight() - 80);
-
-
 
         batch.end();
     }
