@@ -12,7 +12,6 @@ public class AudioService {
         this.conf = conf;
     }
 
-
     public void playPlayerDamage() {
         if (conf.isSoundEnabled()) {
             res.getDamageSound().play();

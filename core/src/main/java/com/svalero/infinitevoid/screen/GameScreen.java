@@ -25,8 +25,9 @@ public class GameScreen implements Screen {
     private RenderManager renderManager;
     private float timePlayed;
     private Array<Effect> effects;
-    private Array<Enemy> characters;
+    private Array<Enemy> enemies;
     private Array<Shoot> shoots;
+    private Array<Entity> entities;
     private Player player;
     private ConfigurationManager configurationManager;
     private InfiniteVoid game;
@@ -46,15 +47,16 @@ public class GameScreen implements Screen {
 
             configurationManager.update();
 
-            levelManager = new LevelManager(resourceManager, configurationManager, audioService);
-            logicManager = new LogicManager(resourceManager, levelManager, configurationManager, audioService);
+            levelManager = new LevelManager(audioService);
+            logicManager = new LogicManager(resourceManager, levelManager, audioService);
             audioService.playMusic(levelManager.getCurrentLevel());
 
             batch = new SpriteBatch();
             renderManager = new RenderManager(batch, resourceManager, levelManager);
-            characters = new Array<>();
+            enemies = new Array<>();
             effects = new Array<>();
             shoots = new Array<>();
+            entities = new Array<>();
 
             player = new Player(resourceManager.getShipAnimation());
             audioService.playMusic(levelManager.getCurrentLevel());
@@ -66,10 +68,12 @@ public class GameScreen implements Screen {
         timePlayed += delta;
         logicManager.handleInput(delta, player, shoots);
         levelManager.checkLevelUp(player.getScore());
-        logicManager.spawnEnemies(characters, delta, player);
-        logicManager.CheckColisions(characters, effects, delta, shoots, player);
+        logicManager.spawnEnemies(enemies, delta, player);
+        logicManager.cleanEntities(enemies, shoots);
+        logicManager.CheckColisions(enemies, effects, shoots, player);
         logicManager.updateEffects(effects);
-        renderManager.render(player, characters, effects, shoots, delta);
+        renderManager.render(player, enemies, effects, shoots, delta);
+
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             //Nos auto pasamos para recordar por donde iba la partida
@@ -108,6 +112,6 @@ public class GameScreen implements Screen {
     public void dispose() {
         batch.dispose();
         resourceManager.dispose();
-        characters.clear();
+        enemies.clear();
     }
 }
