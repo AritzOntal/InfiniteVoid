@@ -11,3 +11,4 @@
 * ⚠️ **Dificultad ilimitada:** Con cada nuevo nivel, la cantidad y velocidad de los enemigos aumenta de forma progresiva e indefinida.
 
 ¡Prepara tus cañones y demuestra cuánto tiempo puedes sobrevivir en el vacío infinito!
+[Constants.java](core/src/main/java/com/svalero/infinitevoid/Util/Constants.java)

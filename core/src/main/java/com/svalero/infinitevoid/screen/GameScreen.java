@@ -23,16 +23,15 @@ public class GameScreen implements Screen {
     private LevelManager levelManager;
     private LogicManager logicManager;
     private RenderManager renderManager;
-    private float timePlayed;
     private Array<Effect> effects;
     private Array<Enemy> enemies;
     private Array<Shoot> shoots;
-    private Array<Entity> entities;
     private Player player;
     private ConfigurationManager configurationManager;
     private InfiniteVoid game;
     private AudioService audioService;
 
+    private float timePlayed;
 
     @Override
     public void show() {
@@ -56,7 +55,6 @@ public class GameScreen implements Screen {
             enemies = new Array<>();
             effects = new Array<>();
             shoots = new Array<>();
-            entities = new Array<>();
 
             player = new Player(resourceManager.getShipAnimation());
             audioService.playMusic(levelManager.getCurrentLevel());
@@ -69,8 +67,8 @@ public class GameScreen implements Screen {
         logicManager.handleInput(delta, player, shoots);
         levelManager.checkLevelUp(player.getScore());
         logicManager.spawnEnemies(enemies, delta, player);
-        logicManager.cleanEntities(enemies, shoots);
-        logicManager.CheckColisions(enemies, effects, shoots, player);
+        logicManager.cleanOutEntities(enemies, shoots);
+        logicManager.checkColisions(enemies, effects, shoots, player);
         logicManager.updateEffects(effects);
         renderManager.render(player, enemies, effects, shoots, delta);
 
@@ -81,7 +79,7 @@ public class GameScreen implements Screen {
         }
 
         if (player.getLives() < 1) {
-            ((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(player, batch, resourceManager));
+            ((Game) Gdx.app.getApplicationListener()).setScreen(new GameOverScreen(batch, resourceManager));
         }
 
         if (player.getScore() > TARGET_SCORE) {

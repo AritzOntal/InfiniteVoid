@@ -13,31 +13,25 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.svalero.infinitevoid.InfiniteVoid;
 import com.svalero.infinitevoid.manager.ConfigurationManager;
-import com.svalero.infinitevoid.manager.ResourceManager;
 
 public class ConfigurationScreen implements Screen {
 
     private Stage stage;
     private ConfigurationManager configurationManager;
-    private ResourceManager resourceManager;
     private GameScreen activeGame;
 
     public ConfigurationScreen(GameScreen activeGame) {
         this.activeGame = activeGame;
     }
 
-
     @Override
     public void show() {
         InfiniteVoid game = (InfiniteVoid) Gdx.app.getApplicationListener();
-        this.resourceManager = game.getResourceManager();
         this.configurationManager = game.getConfigurationManager();
 
         if (!VisUI.isLoaded()) {
             VisUI.load();
         }
-
-
 
         VisCheckBox checkMusic = new VisCheckBox("Música");
         //Comprueba el valor anterior
@@ -49,8 +43,6 @@ public class ConfigurationScreen implements Screen {
             }
         });
 
-
-
         VisCheckBox checkSound = new VisCheckBox("Efectos de sonido");
         //Comprueba el valor anterior
         checkSound.setChecked(configurationManager.isSoundEnabled());
@@ -61,8 +53,6 @@ public class ConfigurationScreen implements Screen {
             }
         });
 
-
-
         VisTextButton backMainMenuButton = new VisTextButton("Atrás");
         checkSound.setChecked(configurationManager.isSoundEnabled());
         backMainMenuButton.addListener(new ClickListener() {
@@ -71,7 +61,6 @@ public class ConfigurationScreen implements Screen {
                 ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(game, activeGame));
             }
         });
-
 
         stage = new Stage();
         VisTable table = new VisTable(true);
@@ -86,18 +75,15 @@ public class ConfigurationScreen implements Screen {
         table.add(backMainMenuButton).center().width(300).height(100).pad(2);
 
         Gdx.input.setInputProcessor(stage);
-
     }
 
     @Override
     public void render(float delta) {
-
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.act(delta);
         stage.draw();
-
     }
 
     @Override
@@ -105,7 +91,6 @@ public class ConfigurationScreen implements Screen {
         if (width > 0 && height > 0) {
             stage.getViewport().update(width, height, true);
         }
-
     }
 
     @Override

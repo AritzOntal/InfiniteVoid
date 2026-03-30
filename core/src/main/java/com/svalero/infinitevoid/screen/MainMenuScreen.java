@@ -17,7 +17,6 @@ public class MainMenuScreen implements Screen {
     private GameScreen activeGame;
     private InfiniteVoid infiniteVoid;
 
-
     // Constructor para cuando esta pausado
     public MainMenuScreen(InfiniteVoid infiniteVoid, GameScreen activeGame) {
         this.activeGame = activeGame;
@@ -71,6 +70,7 @@ public class MainMenuScreen implements Screen {
         instructionsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
                 // Ventana emergente
                 com.kotcrab.vis.ui.widget.VisDialog dialog = new com.kotcrab.vis.ui.widget.VisDialog("Como Jugar");
 
@@ -94,7 +94,6 @@ public class MainMenuScreen implements Screen {
             }
         });
 
-
         table.row();
         table.add(playButton).center().width(200).height(100).pad(5);
         table.row();
@@ -106,7 +105,6 @@ public class MainMenuScreen implements Screen {
 
         //PARA QUE LEA LOS INPUTS
         Gdx.input.setInputProcessor(stage);
-
     }
 
     @Override
@@ -123,8 +121,6 @@ public class MainMenuScreen implements Screen {
         if (width > 0 && height > 0) {
         stage.getViewport().update(width, height, true);
         }
-
-
     }
 
     @Override
@@ -141,6 +137,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 }

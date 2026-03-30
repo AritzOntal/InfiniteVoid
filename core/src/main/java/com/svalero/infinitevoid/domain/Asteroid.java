@@ -18,7 +18,7 @@ public class Asteroid extends Enemy {
     }
 
     @Override
-    public void move(float delta) {
+    public void move(float delta,  Vector2 playerPos) {
         position.y -= ASTEROID_SPEED * delta;
         rectangle.y = position.y;
     }

@@ -23,5 +23,5 @@ public abstract class Enemy extends Entity {
 
     }
 
-    public abstract void move(float delta);
+    public abstract void move(float delta, Vector2 playerPos);
 }

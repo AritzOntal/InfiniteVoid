@@ -14,30 +14,31 @@ import static com.svalero.infinitevoid.Util.Constants.KAMIKAZE_SPEED;
 public class Kamikaze extends Enemy {
 
     Vector2 playerPos;
+    //Variable desechable para no guardar una cada frame. Se reutiliza.
+    private final Vector2 tmpVector = new Vector2();
 
     public Kamikaze(Animation<TextureRegion> animation, float x, float y) {
         super(animation, new Vector2(x, y), KAMIKAZE_LIVES);
     }
 
     @Override
-    public void move(float delta) {
-        if (playerPos.y > position.y) {
+    public void move(float delta, Vector2 playerPos) {
+        if (playerPos.y < position.y) {
+            this.followPlayer(playerPos, delta);
+        } else {
+
             position.y -= KAMIKAZE_SPEED * delta;
-            rectangle.y = position.y;
         }
+        rectangle.setPosition(position.x, position.y);
     }
 
     public void followPlayer(Vector2 playerPos, float delta) {
         this.playerPos = playerPos;
+
         if (playerPos.y < position.y) {
-            Vector2 direccion = new Vector2(playerPos.x, playerPos.y);
-            direccion.sub(position);
-            direccion.nor();
-            direccion.scl(KAMIKAZE_SPEED * delta);
-            position.add(direccion);
+            tmpVector.set(playerPos).sub(position).nor().scl(KAMIKAZE_SPEED * delta);
 
-            rectangle.setPosition(position.x, position.y);
-
+            position.add(tmpVector);
         }
     }
 }

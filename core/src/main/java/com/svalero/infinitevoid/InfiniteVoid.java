@@ -20,7 +20,6 @@ public class InfiniteVoid extends Game {
         resourceManager = new ResourceManager();
         resourceManager.loadAll();
         configurationManager = new ConfigurationManager(resourceManager);
-
         audioService = new AudioService(resourceManager, configurationManager);
 
         setScreen(new MainMenuScreen(this, null));

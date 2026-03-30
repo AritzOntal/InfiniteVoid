@@ -21,6 +21,7 @@ public abstract class Entity {
         this.position = position;
         this.lives = lives;
         this.stateTime = 0f;
+
         // Obtenemos las dimensiones del primer frame para calcular el Rectangle
         TextureRegion firstFrame = animation.getKeyFrame(0);
         this.rectangle = new Rectangle(position.x, position.y, firstFrame.getRegionWidth(), firstFrame.getRegionHeight());

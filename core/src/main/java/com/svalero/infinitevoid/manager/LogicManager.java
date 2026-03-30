@@ -46,23 +46,22 @@ public class LogicManager {
         if (kamikazeTimer >= levelManager.getKamikazeSpawnInterval()) {
             enemies.add(new Kamikaze(res.getKamikazeAnimation(), MathUtils.random(0, 1024), 768));
 
+
             kamikazeTimer = 0;
         }
 
-        for (Enemy enemie : enemies) {
-            if (enemie instanceof Kamikaze) {
-                Kamikaze kamikaze = (Kamikaze) enemie;
-                kamikaze.followPlayer(player.getPosition(), delta);
-            }
-            enemie.move(delta);
+        for (Enemy enemy : enemies) {
+            enemy.move(delta, player.getPosition());
         }
     }
 
 
-    public void cleanEntities(Array<Enemy> enemies, Array<Shoot> shoots) {
+    public void cleanOutEntities(Array<Enemy> enemies, Array<Shoot> shoots) {
         for (int i = enemies.size - 1; i >= 0; i--) {
             if (enemies.get(i).getPosition().y < -enemies.get(i).getRectangle().getHeight()) {
                 enemies.removeIndex(i);
+                System.out.println("Enemigo borrado");
+
             }
         }
 
@@ -74,45 +73,48 @@ public class LogicManager {
         }
     }
 
-
-    public void CheckColisions(Array<Enemy> enemies, Array<Effect> colisions, Array<Shoot> shoots, Player player) {
+    public void checkColisions(Array<Enemy> enemies, Array<Effect> effects, Array<Shoot> shoots, Player player) {
         for (int i = 0; i < enemies.size; i++) {
-            Enemy enemie = enemies.get(i);
+            Enemy enemy = enemies.get(i);
 
-            if (enemie.getRectangle().overlaps(player.getRectangle())) {
-                if (!enemie.isDoDamage()) {
+            if (enemy.getRectangle().overlaps(player.getRectangle())) {
+                if (!enemy.isDoDamage()) {
                     player.takeDamage();
                     player.setLives(player.getLives() - 1);
                     audioService.playPlayerDamage();
-                    enemie.setDoDamage(true);
-                    if (enemie instanceof Kamikaze) {
-                        enemies.removeValue(enemie, true);
+                    enemy.setDoDamage(true);
+
+                    if (enemy instanceof Kamikaze) {
+                        enemies.removeIndex(i);
+                        --i;
+                        continue;
                     }
                 }
             } else {
-                enemie.setDoDamage(false);
+                enemy.setDoDamage(false);
             }
 
-            for (int c = 0; c < shoots.size; c++) {
-                Shoot shoot = shoots.get(c);
+            for (int j = 0; j < shoots.size; j++) {
+                Shoot shoot = shoots.get(j);
 
-                if (shoot.getRectangle().overlaps(enemie.getRectangle())) {
-                    if (enemie.getLives() > 1) {
-                        enemie.setLives(enemie.getLives() - 1);
+                if (shoot.getRectangle().overlaps(enemy.getRectangle())) {
+                    if (enemy.getLives() > 1) {
+                        enemy.setLives(enemy.getLives() - 1);
                         audioService.playShootColision();
-
-                        shoots.removeValue(shoot, true);
+                        shoots.removeIndex(j);
                     } else {
-                        Explosion exp = new Explosion(enemie.getRectangle().x - 100, enemie.getRectangle().y - 100, res.getExplosionAnimation());
-                        colisions.add(exp);
+                        Explosion exp = new Explosion(enemy.getRectangle().x - 100, enemy.getRectangle().y - 100, res.getExplosionAnimation());
+                        effects.add(exp);
                         audioService.playExplosion();
 
-                        enemies.removeValue(enemie, true);
-                        shoots.removeValue(shoot, true);
-
-                        if (enemie.getClass().isAssignableFrom(ShieldShip.class)) {
+                        if (enemy instanceof ShieldShip) {
                             player.setScore(player.getScore() + 50);
                         }
+
+                        enemies.removeIndex(i);
+                        shoots.removeIndex(j);
+                        --i;
+                        break;
                     }
                 }
             }

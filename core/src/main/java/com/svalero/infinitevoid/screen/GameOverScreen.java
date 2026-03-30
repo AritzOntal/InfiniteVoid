@@ -17,20 +17,17 @@ import com.svalero.infinitevoid.manager.ResourceManager;
 
 public class GameOverScreen implements Screen {
 
-    private Player player;
     private Stage stage;
     private SpriteBatch batch;
     private ResourceManager res;
 
-    public GameOverScreen(Player player, SpriteBatch batch, ResourceManager resourceManager) {
-        this.player = player;
+    public GameOverScreen(SpriteBatch batch, ResourceManager resourceManager) {
         this.batch = batch;
         this.res = resourceManager;
     }
 
     @Override
     public void show() {
-
         if (!VisUI.isLoaded()) {
             VisUI.load();
         }
@@ -53,7 +50,6 @@ public class GameOverScreen implements Screen {
         table.add(playButton).center().width(300).height(100).pad(2);
 
         Gdx.input.setInputProcessor(stage);
-
     }
 
     @Override

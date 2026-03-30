@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
 public class AnimationHelper {
-
     public static Animation<TextureRegion> createAnimation(Texture sheet, int columns, int rows, float frameDuration, boolean loop) {
         TextureRegion[][] tmp = TextureRegion.split(sheet,
             sheet.getWidth() / columns,
@@ -20,9 +19,11 @@ public class AnimationHelper {
                 frames.add(tmp[i][j]);
             }
         }
+
         if (!loop) {
             return new Animation<>(frameDuration, frames, Animation.PlayMode.NORMAL);
         }
+
         return new Animation<>(frameDuration, frames, Animation.PlayMode.LOOP);
     }
 }
